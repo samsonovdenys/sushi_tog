@@ -1,0 +1,307 @@
+/* Default*/
+
+/*Обнуление*/
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+:focus,
+:active {
+    outline: none;
+}
+a:focus,
+a:active {
+    outline: none;
+}
+nav,
+footer,
+header,
+aside {
+    display: block;
+}
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+}
+input,
+button,
+textarea {
+    font-family: inherit;
+}
+input::-ms-clear {
+    display: none;
+}
+button {
+    cursor: pointer;
+}
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+a,
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+ul li {
+    list-style: none;
+}
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    color: white;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+body {
+    min-height: 100%;
+    line-height: 1.5;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-image: url("../imgs/background.png");
+    background-attachment: fixed;
+    background-size: cover; /* Adjust as needed */
+    background-repeat: no-repeat;
+    background-position: center center; /* This centers the image horizontally and vertically */
+}
+
+.background_dark {
+    height: 100%;
+    background-color: rgba(54, 54, 54, 0.9);
+}
+
+.wrapper {
+    height: 200vh;
+    width: 100%;
+}
+
+header {
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+}
+
+main {
+    /* min-height: 90%; */
+}
+
+button {
+    min-height: 40px;
+    min-width: 40px;
+    /* border: 1px solid blue; */
+    /* border-radius: 30px; */
+    /* color: white; */
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+input {
+    /* max-width: 100%; */
+    min-height: 60px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.underlined {
+    color: rgba(255, 182, 41, 1);
+    text-decoration-line: underline;
+    text-decoration-color: rgba(255,182,41,1); /* Change to your desired color */
+    text-decoration-skip-ink: none; /* Prevent ink skipping for better positioning */
+    text-underline-offset: 20px; /* Adjust this value to move the underline up or down */
+}
+
+.title {
+    font-family: "Satisfy";
+    font-size: 38px;
+    width: 100%;
+    text-align: center;
+}
+
+.tabs {
+    /* min-height: 8%; */
+    display: flex;
+}
+
+.tab_body {
+    /* min-height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
+}
+
+.divided {
+    width: 50%;
+    text-align: center;
+}
+
+
+/*-------------------------------------------------------------*/
+.left_tab_body_create_item {
+    padding-top: 30px;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.left_tab_body_create_item button {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+}
+
+.create_item_inputs {
+    display: flex;
+    padding: 20px;
+}
+
+.create_item_input {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid lightseagreen;
+    border-radius: 5px;
+    max-width: 100px;
+    margin: 7px;
+}
+
+.create_item_buttons {
+    display: flex;
+    padding: 25px;
+}
+
+.create_item_button {
+    margin: 15px 0px;
+    width: 100%;
+    /* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
+    border-radius: 10px;
+}
+
+.create_item_inputs h2 {
+    min-height: 40px;
+    font-size: 18px;
+}
+
+.create_item_button button {
+    /* border: none; */
+}
+
+.create_item_quantity_plus {
+    background-color: lightseagreen;
+}
+
+.create_item_quantity_minus {
+    background-color: lightcoral;
+}
+
+.create_item_button_confirm {
+    background-color: lightseagreen;
+}
+
+.create_item_button_cancel {
+    background-color: lightcoral;
+}
+
+
+/*----------------------------------------------------*/
+.left_tab_body {
+    /* justify-content: space-between;
+    display: block; */
+}
+
+.right_tab_body {
+    display: none;
+    font-size: 18px;
+}
+
+.left_tab_body_order {
+    text-align: center;
+}
+
+#btn_ordine_al_gruppo {
+    font-size: 20px;
+    padding: 15px;
+    margin: 20px 0px;
+    background-color: rgba(255, 182, 41, 1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.order_list li {
+    font-size: 18px;
+    background-color: rgba(59, 137, 145, 1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+/*----------------------------------------------------*/
+
+.left_tab_body_order {
+    /* text-align: center; */
+}
+
+/*----------------------------------------------------*/
+
+.right_tab_ul_level_0 {
+    /* border: 1px solid red; */
+}
+
+.right_tab_ul_level_1 {
+    border: 1px solid yellow;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: rgba(59, 137, 145, 1);
+}
+
+.right_tab_ul_level_2 {
+    padding: 5px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 1px solid purple;
+}
+
+.right_tab_ul_level_3 {
+    padding: 5px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 1px solid whitesmoke;
+}
+
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------*/
+/*MEDIA QUERYs*/
+@media (max-width: 767px) {
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
