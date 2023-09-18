@@ -89,7 +89,7 @@
                             <!-- Annulla e Conferma buttons -->
                             <div class="create_item_buttons">
                                 <button class="create_item_button_cancel divided">
-                                    <h2>Annulla</h2>
+                                    <h2>Chiudi</h2>
                                 </button>
                                 <button class="create_item_button_confirm divided">
                                     <h2>Conferma</h2>
@@ -114,7 +114,6 @@
                     </div>
                 </div><!-- end = left_tab_body -->
                 <div class="right_tab_body">
-                    Right TAB body
                     {{-- <ul class="right_tab_ul_level_0">
                         ul class="right_tab_ul_level_1" id="order_1">
                         <li>
@@ -128,7 +127,7 @@
                     </ul> --}}
                     <ul class="right_tab_ul_level_1" id="order_3">
                         <li>
-                            <span>Order #3</span>-<span>(in corso)</span>
+                            <span style="color:white;">Order #1</span><!---<span>(in corso)</span>-->
                             <ul class="right_tab_ul_level_2" id="dish_codes_ul">
                                 <li>
                                     <span class="dish_code">835A</span>-<span class="dish_qantity">5</span>
