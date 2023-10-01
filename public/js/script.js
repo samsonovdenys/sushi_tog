@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let order_list = [];
+    let order_list = {};
+    let group_list = {};
     let create_item_button = document.querySelector(".create_item_button");
     let create_item_button_cancel = document.querySelector(
         ".create_item_button_cancel"
@@ -58,7 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
         Object.entries(order_list).forEach((entry) => {
             const [key, value] = entry;
 
-            console.log(key, value);
+            // console.log("Object.entries(order_list).forEach");
+            // console.log(key, value);
 
             // Crea un nuovo elemento nella lista ul
             var li = document.createElement("li");
@@ -67,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Aggiungi l'elemento alla lista ul
             document.querySelector(".order_list").prepend(li);
         });
+        // console.log("console.log(order_list)");
+        // console.log(order_list);
 
         // Fai sparire il div `left_tab_body_create_item`
         // document.querySelector(".left_tab_body_create_item").style.display = "none";
@@ -105,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Quando il pulsante `Ordine del gruppo` viene premuto, fai apparire il div `right_tab_body`
     document.querySelector("#tab_right").addEventListener("click", function () {
-        updateGruppo();
+        updateGruppo(order_list);
         document.querySelector(".left_tab_body").style.display = "none";
         document.querySelector(".right_tab_body").style.display = "block";
 
@@ -117,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document
         .querySelector("#btn_ordine_al_gruppo")
         .addEventListener("click", function () {
-            updateGruppo();
+            updateGruppo(order_list);
             document.querySelector(".left_tab_body").style.display = "none";
             document.querySelector(".right_tab_body").style.display = "block";
 
@@ -133,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-            console.log("-----------------------------------------");
+            // console.log("-----------------------------------------");
 
             const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
 
@@ -189,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-    function updateGruppo() {
+    function updateGruppo(order_list) {
         // console.log (order_list);
         // Loop through the NodeList object.
         for (let i = 0; i <= order_list.length - 1; i++) {

@@ -21,9 +21,16 @@ Route::get('/', function () {
 
 
 Route::post('/manage_order', function (Request $request) {
-    
+
     $data = $request->json()->all();
-    return response()->json(['message' => 'Order data received successfully']);
+
+    // Creare un'istanza di OrderController
+    $orderController = new OrderController();
+
+    // Chiamare la funzione manageOrder sulla classe OrderController e passare $data come parametro
+    $response = $orderController->manageOrder($data);
+
+    return response()->json(['message' => $response]);
 });
 
 // Route::post('/manage_order', function ($item) {

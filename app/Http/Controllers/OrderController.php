@@ -3,13 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function manageOrder(Request $request)
+
+    public function manageOrder($data)
     {
-        // Retrieve the JSON data from the request body
-        $data = $request->json()->all();
+        dump($data);
+
+        // Connessione al database predefinito
+        $connection = DB::connection();
+
+        // Esempio di esecuzione di una query
+        // $results = $connection->select('select * from user_order_table');
+        // Puoi anche utilizzare il metodo `table` per selezionare una tabella specifica
+            $tableName = 'user_order_table';
+            $results = DB::connection()->table($tableName)->get();
+        dump($results);
+        foreach ($data as $key => $value){
+            // Puoi anche utilizzare il metodo `insertGetId` per ottenere l'ID del record appena inserito
+            $nuovoRecordId = DB::table('user_order_table')->insertGetId([
+                'group_id' => '12',
+                'user_id' => '1231345',
+                'order_id' => '222',
+                'plate_code' => $key,
+                'notes' => '',
+                'quantity' => $value,
+            ]);
+        }
+
+        // dump($nuovoRecordId);
+
+
+
+
 
         // You can now work with the data as needed
         // For example, you can access specific fields from the JSON data:
@@ -17,10 +45,9 @@ class OrderController extends Controller
         // $productName = $data['productName'];
         // $quantity = $data['quantity'];
 
-        dd($data);
         // Perform your desired actions with the data
 
         // Return a response (optional)
-        return response()->json(['message' => 'Order data received successfully']);
+        return 'Order data received successfully';
     }
 }
