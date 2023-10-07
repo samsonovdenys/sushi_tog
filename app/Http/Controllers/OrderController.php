@@ -10,7 +10,6 @@ class OrderController extends Controller
 
     public function manageOrder($data)
     {
-        dump($data);
 
         // Connessione al database predefinito
         $connection = DB::connection();
@@ -18,9 +17,8 @@ class OrderController extends Controller
         // Esempio di esecuzione di una query
         // $results = $connection->select('select * from user_order_table');
         // Puoi anche utilizzare il metodo `table` per selezionare una tabella specifica
-            $tableName = 'user_order_table';
-            $results = DB::connection()->table($tableName)->get();
-        dump($results);
+
+
         foreach ($data as $key => $value){
             // Puoi anche utilizzare il metodo `insertGetId` per ottenere l'ID del record appena inserito
             $nuovoRecordId = DB::table('user_order_table')->insertGetId([
@@ -35,7 +33,8 @@ class OrderController extends Controller
 
         // dump($nuovoRecordId);
 
-
+                $tableName = 'user_order_table';
+            $results = DB::connection()->table($tableName)->get();
 
 
 
@@ -48,6 +47,6 @@ class OrderController extends Controller
         // Perform your desired actions with the data
 
         // Return a response (optional)
-        return 'Order data received successfully';
+        return $results;
     }
 }

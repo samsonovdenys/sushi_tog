@@ -15,10 +15,13 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/order', function () {
     return view('main');
 });
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::post('/manage_order', function (Request $request) {
 
@@ -29,23 +32,8 @@ Route::post('/manage_order', function (Request $request) {
 
     // Chiamare la funzione manageOrder sulla classe OrderController e passare $data come parametro
     $response = $orderController->manageOrder($data);
-
-    return response()->json(['message' => $response]);
+// dump($response, response()->json($response));
+    return response()->json($response);
 });
 
-// Route::post('/manage_order', function ($item) {
-//     dd($item);
-//     return view('main');
-// });
 
-// Route::get('/token', function (Request $request) {
-//     $token = $request->session()->token();
-
-//     $token = csrf_token();
-
-//     // ...
-// });
-
-// Route::post('/manage_order', '\App\Http\Controllers\OrderController@manageOrder');
-
-// Route::post('/manage_order', [OrderController::class, 'manageOrder']);

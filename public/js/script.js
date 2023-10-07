@@ -1,27 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
     let order_list = {};
     let group_list = {};
-    let create_item_button = document.querySelector(".create_item_button");
-    let create_item_button_cancel = document.querySelector(
-        ".create_item_button_cancel"
-    );
-    let left_tab_body_create_item = document.querySelector(
-        ".left_tab_body_create_item"
-    );
-    let create_item_button_confirm = document.querySelector(
-        ".create_item_button_confirm"
-    );
+
+    let add_plate_button = document.querySelector(".add_plate_button");
+
+    let create_item_button_confirm = document.querySelector(".create_item_button_confirm");
+    let create_item_button_cancel = document.querySelector(".create_item_button_cancel");
+
+    let left_tab_body_create_item = document.querySelector(".left_tab_body_create_item");
+
 
     // Quando il pulsante `Crea nuovo elemento` viene premuto, fai apparire il div `create_item`
-    create_item_button.addEventListener("click", function () {
+    add_plate_button.addEventListener("click", function () {
         left_tab_body_create_item.style.display = "block";
-        create_item_button.disabled = true;
+        add_plate_button.disabled = true;
     });
 
     // Quando il pulsante `Annulla` viene premuto, fai sparire il div `create_item`
     create_item_button_cancel.addEventListener("click", function () {
         left_tab_body_create_item.style.display = "none";
-        create_item_button.disabled = false;
+        add_plate_button.disabled = false;
     });
 
     // Quando il pulsante `Conferma` viene premuto, inserisce in lista i dati dai input
@@ -136,43 +134,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-
             // console.log("-----------------------------------------");
 
-            const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
-
-            let origin = location.origin;
-
-            // Create the fetch request
-            fetch(origin+'/manage_order', {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json", // Specify the content type as JSON
-                    "X-CSRF-TOKEN": csrfToken, // Replace csrfToken with the actual CSRF token value
-                  },
-                body: JSON.stringify(order_list), // Convert the object to a JSON string
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(
-                            `HTTP Error! Status: ${response.status}`
-                        );
-                    }
-                    return response.json(); // Parse the response body as JSON
-                })
-                .then((data) => {
-                    // Handle the response data here
-                    console.log("Response Data:", data);
-                })
-                .catch((error) => {
-                    // Handle any errors that occurred during the fetch
-                    console.error("Error:", error);
-                });
-
-
-
-            console.log("-----------------------------------------");
+            uploadData();
 
 
             for (const [key, value] of Object.entries(order_list)) {
@@ -192,6 +156,52 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.querySelector("#dish_codes_ul").append(li);
             }
         });
+
+    async function uploadData(){
+
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+// console.log("csrfToken : "+csrfToken);
+
+// console.log(document.head.querySelector('meta[name="csrf-token"]').attr('content'));
+// console.log(document.head.querySelector("[name~=csrf-token][content]"));
+// console.log(document.head.querySelector("[name~=csrf-token][content]").content);
+
+            let origin = location.origin;
+
+            // Create the fetch request
+           let response = await fetch(origin+'/manage_order', {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json", // Specify the content type as JSON
+                    "X-CSRF-TOKEN": csrfToken, // Replace csrfToken with the actual CSRF token value
+                  },
+                body: JSON.stringify(order_list), // Convert the object to a JSON string
+            });
+                // .then((response) => {
+                //     if (!response.ok) {
+                //         throw new Error(
+                //             `HTTP Error! Status: ${response.status}`
+                //         );
+                //     }
+                //     return response.json(); // Parse the response body as JSON
+                // })
+                // .then((data) => {
+                //     // Handle the response data here
+                //     console.log("Response Data:", data);
+                // })
+                // .catch((error) => {
+                //     // Handle any errors that occurred during the fetch
+                //     console.error("Error:", error);
+                // });
+
+                const result = await response.json();
+                console.log("Success:", result);
+
+
+            console.log("-----------------------------------------");
+    }
 
     function updateGruppo(order_list) {
         // console.log (order_list);
