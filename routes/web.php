@@ -14,14 +14,18 @@ use App\Http\Controllers\OrderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/group_details', function () {
+    return view('group_details');
+});
 
 Route::get('/order', function () {
     return view('main');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::post('/manage_order', function (Request $request) {
 

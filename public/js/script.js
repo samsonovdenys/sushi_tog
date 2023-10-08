@@ -2,24 +2,25 @@ document.addEventListener("DOMContentLoaded", function () {
     let order_list = {};
     let group_list = {};
 
-    let add_plate_button = document.querySelector(".add_plate_button");
+    let add_plate_button = document.querySelector("#add_plate_button");
 
-    let create_item_button_confirm = document.querySelector(".create_item_button_confirm");
-    let create_item_button_cancel = document.querySelector(".create_item_button_cancel");
 
-    let left_tab_body_create_item = document.querySelector(".left_tab_body_create_item");
+    let create_item_button_confirm = document.querySelector("#create_item_button_confirm");
+    let create_item_button_cancel = document.querySelector("#create_item_button_cancel");
+
+    let create_item_section = document.querySelector(".create_item_section");
 
 
     // Quando il pulsante `Crea nuovo elemento` viene premuto, fai apparire il div `create_item`
     add_plate_button.addEventListener("click", function () {
-        left_tab_body_create_item.style.display = "block";
-        add_plate_button.disabled = true;
+        create_item_section.style.display = "block";
+        add_plate_button.style = 'display: none';
     });
 
-    // Quando il pulsante `Annulla` viene premuto, fai sparire il div `create_item`
+    // Quando il pulsante `Chiudi` viene premuto, fai sparire il div `create_item`
     create_item_button_cancel.addEventListener("click", function () {
-        left_tab_body_create_item.style.display = "none";
-        add_plate_button.disabled = false;
+        create_item_section.style.display = "none";
+        add_plate_button.style = 'display: block';
     });
 
     // Quando il pulsante `Conferma` viene premuto, inserisce in lista i dati dai input
@@ -65,18 +66,18 @@ document.addEventListener("DOMContentLoaded", function () {
             li.innerHTML =
                 "<span>" + key + "</span>" + " " + "<span>" + value + "</span>";
             // Aggiungi l'elemento alla lista ul
-            document.querySelector(".order_list").prepend(li);
+            document.querySelector("#order_list_items").prepend(li);
         });
         // console.log("console.log(order_list)");
         // console.log(order_list);
 
-        // Fai sparire il div `left_tab_body_create_item`
-        // document.querySelector(".left_tab_body_create_item").style.display = "none";
+        // Fai sparire il div `create_item`
+        // document.querySelector(".reate_item").style.display = "none";
     });
 
     // Quando il pulsante `-` viene premuto, diminuisci il valore dell'input
     document
-        .querySelector(".create_item_quantity_minus")
+        .querySelector("#btn_minus")
         .addEventListener("click", function () {
             var quantity = document.querySelector("#input_quantity").value;
             if (quantity > 1) {
@@ -87,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Quando il pulsante `+` viene premuto, incrementa il valore dell'input
     document
-        .querySelector(".create_item_quantity_plus")
+        .querySelector("#btn_plus")
         .addEventListener("click", function () {
             var quantity = document.querySelector("#input_quantity").value;
             if (quantity < 100) {
@@ -97,22 +98,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     // Quando il pulsante `Il tuo ordine` viene premuto, fai apparire il div `left_tab_body`
-    document.querySelector("#tab_left").addEventListener("click", function () {
-        document.querySelector(".left_tab_body").style.display = "block";
+    document.querySelector("#tab_left_btn").addEventListener("click", function () {
+        document.querySelector(".left_tab_body").style.display = "flex";
         document.querySelector(".right_tab_body").style.display = "none";
 
-        document.querySelector("#tab_left").classList.add("underlined");
-        document.querySelector("#tab_right").classList.remove("underlined");
+        document.querySelector("#tab_left_btn").classList.add("underlined");
+        document.querySelector("#tab_right_btn").classList.remove("underlined");
     });
 
     // Quando il pulsante `Ordine del gruppo` viene premuto, fai apparire il div `right_tab_body`
-    document.querySelector("#tab_right").addEventListener("click", function () {
+    document.querySelector("#tab_right_btn").addEventListener("click", function () {
         updateGruppo(order_list);
         document.querySelector(".left_tab_body").style.display = "none";
         document.querySelector(".right_tab_body").style.display = "block";
 
-        document.querySelector("#tab_right").classList.add("underlined");
-        document.querySelector("#tab_left").classList.remove("underlined");
+        document.querySelector("#tab_right_btn").classList.add("underlined");
+        document.querySelector("#tab_left_btn").classList.remove("underlined");
     });
 
     // Quando il pulsante `Invia Ordine al Gruppo` viene premuto, fai apparire il div `right_tab_body`
@@ -123,8 +124,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelector(".left_tab_body").style.display = "none";
             document.querySelector(".right_tab_body").style.display = "block";
 
-            document.querySelector("#tab_right").classList.add("underlined");
-            document.querySelector("#tab_left").classList.remove("underlined");
+            document.querySelector("#tab_right_btn").classList.add("underlined");
+            document.querySelector("#tab_left_btn").classList.remove("underlined");
 
             var ul = document.getElementById("dish_codes_ul");
 

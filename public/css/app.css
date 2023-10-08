@@ -82,15 +82,11 @@ h6 {
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 body {
-    /* min-height: 100%; */
     line-height: 1.5;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    /* display: flex; */
-    /* flex-direction: column; */
     background-image: url("../imgs/background.png");
     background-attachment: fixed;
     background-size: cover; /* Adjust as needed */
-    /* background-repeat: no-repeat; */
     background-position: center center; /* This centers the image horizontally and vertically */
 }
 
@@ -105,7 +101,7 @@ body {
 }
 
 header {
-    height: 100px;
+    min-height: 9vh;
     display: flex;
     flex-direction: row;
 }
@@ -115,20 +111,21 @@ main {
     padding: 0 10px;
 }
 
+.content {
+    color:white;
+    display:flex;
+    flex-direction: column;
+    min-height: 88vh;
+}
+
 footer {
+    height: 3vh;
     padding: 0 10px;
 }
 
-button {
-    min-height: 40px;
-    min-width: 40px;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-input {
-    min-height: 60px;
-    text-align: center;
-    font-size: 18px;
+hr {
+    height: 3px;
+    background-color: lightseagreen;
 }
 
 .underlined {
@@ -139,33 +136,96 @@ input {
     text-underline-offset: 20px; /* Adjust this value to move the underline up or down */
 }
 
+.divided {
+    width: 50%;
+    text-align: center;
+}
+
+.button_component {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    margin: 10px 0px;
+    min-height: 50px;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.text_component {
+    padding: 8px 0px;
+    text-align: center;
+    font-size: 18px;
+    font-style: italic;
+}
+
+.input_component {
+    display: block;
+    width: 100%;
+    border: 2px solid rgb(40, 140, 255);
+    border-radius: 10px;
+    margin: 8px 0px;
+    color: lightseagreen;
+}
+
+input {
+    min-height: 60px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.bg_yellow {
+    background-color: rgba(255, 182, 41, 1);
+}
+.bg_green {
+    background-color: lightseagreen;
+}
+.bg_red {
+    background-color: rgb(255, 95, 73);
+}
+.color_green {
+    color: lightseagreen;
+}
+
+
 .title {
+    padding: 8px;
     font-family: "Satisfy";
     font-size: 40px;
     width: 100%;
     text-align: center;
 }
 
-
-.divided {
-    width: 50%;
-    text-align: center;
-}
-
-
 /*-------------------------------------------------------------*/
-#tab_left {
-    border-right: 1px solid white;
+.main_tabs {
+    min-height: 5vh;
+    min-width: 50%;
+    border-top: 1px solid lightseagreen;
 }
-#tab_right {
-    border-left: 1px solid white;
+#tab_left_btn {
+    border-right: 1px solid lightseagreen;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+#tab_right_btn {
+    border-left: 1px solid lightseagreen;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tabs_body {
+    /* padding: 20px 0px; */
+    flex: 1;
+    /* min-height: 82vh; */
 }
 
 .left_tab_body {
+    padding: 15px 0px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 83vh;
 }
 
-.left_tab_body_create_item {
+.create_item_section {
     padding-top: 30px;
     display: none;
     background-color: rgba(255, 255, 255, 0.3);
@@ -173,7 +233,7 @@ input {
 }
 
 
-.left_tab_body_create_item button {
+.create_item_section button {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 50px;
 }
@@ -181,7 +241,12 @@ input {
 /*-----------------------------*/
 .create_item_inputs {
     display: flex;
-    padding: 20px;
+    padding: 15px;
+}
+
+.create_item_inputs h2 {
+    min-height: 40px;
+    font-size: 18px;
 }
 
 .create_item_input {
@@ -190,7 +255,7 @@ input {
     border: 1px solid lightseagreen;
     border-radius: 5px;
     max-width: 100px;
-    margin: 7px;
+    margin: 2px;
 }
 
 .create_item_buttons {
@@ -204,26 +269,16 @@ input {
     border-radius: 10px;
 }
 
-.create_item_inputs h2 {
-    min-height: 40px;
-    font-size: 18px;
+
+
+.btn_round {
+    font-size: 22px;
+    color: white;
+    min-height: 45px;
+    min-width: 45px;
+    border-radius: 50%;
 }
 
-.create_item_quantity_plus {
-    background-color: lightseagreen;
-}
-
-.create_item_quantity_minus {
-    background-color: lightcoral;
-}
-
-.create_item_button_confirm {
-    background-color: lightseagreen;
-}
-
-.create_item_button_cancel {
-    background-color: lightcoral;
-}
 
 
 /*----------------------------------------------------*/
@@ -235,25 +290,27 @@ input {
 }
 
 
-#btn_ordine_al_gruppo {
+/* #btn_ordine_al_gruppo {
     font-size: 20px;
     padding: 15px;
     margin: 20px 0px;
     background-color: rgba(255, 182, 41, 1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.8);
     border-radius: 10px;
-}
+} */
 
-.order_list li {
-    font-size: 18px;
-    /* background-color: rgba(59, 137, 145, 1); */
+#order_list_items li {
     background-color: lightseagreen;
+    border-radius: 10px;
+    width: 100%;
+    margin: 10px 0px;
+    min-height: 40px;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding: 5px;
-    margin: 10 0px;
-    border-radius: 10px;
     display: flex;
-    /* flex-direction: row; */
     justify-content: space-around;
 }
 

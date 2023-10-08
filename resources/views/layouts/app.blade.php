@@ -30,7 +30,7 @@
             @show --}}
 
 
-            <footer class="background_dark" style="min-height: 50px; border: 1px solid green;">
+            <footer class="background_dark" style="border: 1px solid green;">
                 @include('partials.footer')
             </footer>
         </div>
