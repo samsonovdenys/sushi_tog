@@ -3,12 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let group_list = {};
 
     let add_plate_button = document.querySelector("#add_plate_button");
-
+    
+    let create_item_section = document.querySelector(".create_item_section");
 
     let create_item_button_confirm = document.querySelector("#create_item_button_confirm");
     let create_item_button_cancel = document.querySelector("#create_item_button_cancel");
 
-    let create_item_section = document.querySelector(".create_item_section");
+
 
 
     // Quando il pulsante `Crea nuovo elemento` viene premuto, fai apparire il div `create_item`

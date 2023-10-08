@@ -1,86 +1,4 @@
 /* Default*/
-
-/*Обнуление*/
-* {
-    padding: 0;
-    margin: 0;
-    border: 0;
-}
-*,
-*:before,
-*:after {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    box-sizing: border-box;
-}
-:focus,
-:active {
-    outline: none;
-}
-a:focus,
-a:active {
-    outline: none;
-}
-nav,
-footer,
-header,
-aside {
-    display: block;
-}
-html,
-body {
-    height: 100%;
-    width: 100%;
-    font-size: 100%;
-    line-height: 1;
-    font-size: 14px;
-    -ms-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
-}
-input,
-button,
-textarea {
-    font-family: inherit;
-}
-input::-ms-clear {
-    display: none;
-}
-button {
-    cursor: pointer;
-}
-button::-moz-focus-inner {
-    padding: 0;
-    border: 0;
-}
-a,
-a:visited {
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: none;
-}
-ul li {
-    list-style: none;
-}
-img {
-    vertical-align: top;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: inherit;
-    font-weight: inherit;
-    color: white;
-}
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
 body {
     line-height: 1.5;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -166,12 +84,9 @@ hr {
     border-radius: 10px;
     margin: 8px 0px;
     color: lightseagreen;
-}
-
-input {
-    min-height: 60px;
-    text-align: center;
+    min-height: 50px;
     font-size: 18px;
+    text-align: center;
 }
 
 .bg_yellow {
@@ -212,13 +127,11 @@ input {
 }
 
 .tabs_body {
-    /* padding: 20px 0px; */
     flex: 1;
-    /* min-height: 82vh; */
 }
-
+/*----- LEFT TAB --------------------------------------------------------*/
 .left_tab_body {
-    padding: 15px 0px;
+    padding-top: 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -226,12 +139,15 @@ input {
 }
 
 .create_item_section {
-    padding-top: 30px;
+    padding: 20px;
     display: none;
     background-color: rgba(255, 255, 255, 0.3);
     text-align: center;
 }
 
+#add_plate_button {
+    margin:20px 0px;
+}
 
 .create_item_section button {
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -239,9 +155,8 @@ input {
 }
 
 /*-----------------------------*/
-.create_item_inputs {
+.create_item_inputs_section {
     display: flex;
-    padding: 15px;
 }
 
 .create_item_inputs h2 {
@@ -254,13 +169,23 @@ input {
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid lightseagreen;
     border-radius: 5px;
-    max-width: 100px;
-    margin: 2px;
+    width: 50px;
+    height: 50px;
+    margin: 0px;
+}
+
+.plus_input_minus {
+    display: flex;
+    height: 50px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .create_item_buttons {
     display: flex;
-    padding: 25px;
+}
+.create_item_buttons button{
+    margin: 50px 5px 0px 5px;
 }
 
 .add_plate_button {
@@ -269,13 +194,11 @@ input {
     border-radius: 10px;
 }
 
-
-
 .btn_round {
     font-size: 22px;
     color: white;
-    min-height: 45px;
-    min-width: 45px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
 }
 
