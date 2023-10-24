@@ -28,7 +28,7 @@
     <div class="content">
         <hr>
         <p class="text_component">Scegli il tuo nickname (obbligatorio)</p>
-        <input class="input_component" placeholder="Stefano">
+        <input id="new_name" class="input_component" placeholder="Stefano">
         <p class="text_component">Seleziona l’Emoji del tuo Avatar (opzionale)</p>
         <button class="button_component" disabled>Usa emoji casuale</button>
         <hr>
@@ -39,7 +39,7 @@
             <hr>
         </div>
         <p  class="text_component">Oppure Crea il tuo nuovo gruppo</p>
-        <input class="input_component" placeholder="Mio nuovo gruppo">
-        <button class="button_component bg_yellow">Crea nuovo gruppo</button>
+        <input id="new_group_name" class="input_component" placeholder="Mio nuovo gruppo">
+        <button id="new_group_button" class="button_component bg_yellow">Crea nuovo gruppo</button>
     </div>
 @endsection

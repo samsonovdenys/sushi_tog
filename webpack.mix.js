@@ -11,7 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+// mix.js('resources/js/app.js', 'public/js')
+// mix.css('resources/css/reser_styles.css', 'public/css')
+// mix.css('resources/css/app.css', 'public/css');
+
+mix.copy('resources/assets/imgs/background.png', 'public/imgs') // Copia l'immagine nella cartella pubblica
+    .options({
+        processCssUrls: false // Impedisce a Mix di processare automaticamente le URL delle immagini
+    });
+
+mix.js('resources/assets/js/app.js', 'public/js')
+    .css('resources/assets/css/app.css', 'public/css');
+
+// mix.postCss('resources/assets/css/reset_styles.css', 'public/css');
+

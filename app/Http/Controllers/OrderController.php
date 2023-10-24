@@ -8,6 +8,37 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
 
+    function __construct(){
+
+    }
+    public function createGroup($groupName, $name)
+    {
+
+        $userId = $name . "_" . uniqid();
+        $groupId = $groupName . "_" . uniqid();
+
+        $link_ToCode = 'http://localhost:8080/join/'.$groupId;
+
+        $nuovoUser = DB::table('user_table')->insert([
+            'group_id' => $groupId,
+            'user_id' => $userId,
+            'nickname' => $name,
+            'avatar' => '',
+        ]);
+
+        $nuovoGruppo = DB::table('group_table')->insert([
+            'group_id' => $groupId,
+            'group_name' => $groupName
+        ]);
+
+        // var_dump($nuovoUser,$nuovoGruppo);
+        return ['group_id' => $groupId,'join_link' => $link_ToCode];
+    }
+
+    public function createUser($groupName, $name, $link_ToCode)
+    {
+        
+    }
     public function manageOrder($data)
     {
 
@@ -24,17 +55,20 @@ class OrderController extends Controller
             $nuovoRecordId = DB::table('user_order_table')->insertGetId([
                 'group_id' => '12',
                 'user_id' => '1231345',
-                'order_id' => '222',
                 'plate_code' => $key,
-                'notes' => '',
                 'quantity' => $value,
             ]);
         }
 
         // dump($nuovoRecordId);
 
-                $tableName = 'user_order_table';
-            $results = DB::connection()->table($tableName)->get();
+            $tableName = 'user_order_table';
+            // $results = DB::connection()->table($tableName)->get()->groupBy('plate_code');
+
+            $results = DB::table($tableName)
+                        ->select('plate_code', DB::raw('SUM(quantity) as total_quantity'))
+                        ->groupBy('plate_code')
+                        ->get();
 
 
 

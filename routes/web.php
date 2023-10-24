@@ -18,14 +18,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/group_details', function () {
-    return view('group_details');
-});
+// Route::get('/group_details', function () {
+//     return view('group_details');
+// });
 
-Route::get('/order', function () {
+Route::get('/join/{group_id}', function ($group_id) {
+
+
     return view('main');
 });
 
+Route::get('/group_details/{group}/{name}', function ($groupName, $name) {
+
+    $orderController = new OrderController();
+
+    $response = $orderController->createGroup($groupName, $name);
+
+    return view('group_details', $response);
+});
 
 Route::post('/manage_order', function (Request $request) {
 

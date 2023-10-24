@@ -15,16 +15,16 @@
         <div style="flex: 1;">
             <p class="text_component color_green">Il sushi del Sabato Sera ✨</p>
             <p class="text_component">Codice gruppo:</p>
-            <p class="text_component color_green">IHB-WXG-SDT</p>
+            <p id="group_id" class="text_component color_green">{{ $group_id }}</p>
             <div style="height: 80px; width: 80px; background-color: white; margin: 0px auto;">QR-CODE</div>
             <div class="text_component">
-                <a href="#" class="color_green">https://sushitogether.com/join/ihb-wxg-sdt</a>
+                <a id="join_link" href="#" class="color_green">{{ $join_link }}</a>
             </div>
             <button class="button_component bg_green">Condividi</button>
             <p  class="text_component">Chiunque può partecipare al gruppo aprendo questo link</p>
             <hr>
         </div>
-        <button class="button_component bg_green">Comincia Ordinare</button>
+        <button id="btn_start_order" class="button_component bg_green">Comincia Ordinare</button>
         <button class="button_component">Torna alla Home</button>
     </div>
 @endsection
