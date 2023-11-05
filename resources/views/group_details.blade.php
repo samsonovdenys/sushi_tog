@@ -15,7 +15,7 @@
         <div style="flex: 1;">
             <p class="text_component color_green">Il sushi del Sabato Sera ✨</p>
             <p class="text_component">Codice gruppo:</p>
-            <p id="group_id" class="text_component color_green">{{ $group_id }}</p>
+            <p id="group_id" class="text_component color_green">{{ $group_name }}</p>
             <div style="height: 80px; width: 80px; background-color: white; margin: 0px auto;">QR-CODE</div>
             <div class="text_component">
                 <a id="join_link" href="#" class="color_green">{{ $join_link }}</a>

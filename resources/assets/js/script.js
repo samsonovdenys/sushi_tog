@@ -2,6 +2,8 @@ $(document).ready(function() {
     let order_list = {};
     let group_list = {};
 
+    let userId = $('#user_id').attr('data-user_id');
+    let groupId = $('#group_id').attr('data-group_id');
     let add_plate_button = $("#add_plate_button");
     let create_item_section = $(".create_item_section");
     let create_item_button_confirm = $("#create_item_button_confirm");
@@ -10,24 +12,23 @@ $(document).ready(function() {
     let new_group_button = $("#new_group_button");
     let new_name = $("#new_name");
     let btn_start_order = $("#btn_start_order");
+    let ul = $("#dish_codes_ul");
 
 
     //
     btn_start_order.on("click", function () {
-        console.log("ciao");
         let join_link = $("#join_link").text();
-        // console.log(join_link);
+
         window.location.href = join_link;
     });
 
     //
     new_group_button.on("click", function () {
-        console.log("clicked newGroupName");
+
         var newGroupName = new_group_name.val();
         var newName = new_name.val();
         window.location.href = "http://localhost:8080/group_details/"+newGroupName+"/"+newName;
-        // console.log(newGroupName);
-        // console.log(newName);
+
     });
 
     // When the "Add Plate" button is clicked, show the "create_item" div and hide the button
@@ -63,7 +64,7 @@ $(document).ready(function() {
             var li = $("<li><span>" + key + "</span> <span>" + value + "</span></li>");
             ul.prepend(li);
         });
-        
+
     });
 
     // When the "-" button is clicked, decrease the input value
@@ -93,7 +94,7 @@ $(document).ready(function() {
         $("#tab_right_btn").removeClass("underlined");
     });
 
-    // When the "Group Order" button is clicked, call the updateGruppo function and toggle tab styles
+    // When the "Group Order" tab button is clicked, call the updateGruppo function and toggle tab styles
     $("#tab_right_btn").on("click", function () {
         fetchDataMakeUl();
         $(".left_tab_body").css("display", "none");
@@ -105,9 +106,8 @@ $(document).ready(function() {
 
     // When the "Send Order to Group" button is clicked, call the updateGruppo function, update the UI, and upload data
     $("#btn_ordine_al_gruppo").on("click", function () {
-        // updateGruppo(order_list);
-        // $groupOrder = getGroupOrder();
-        console.log("ciaooooo");
+
+        console.log("Send Order to Group ...");
         $(".left_tab_body").css("display", "none");
         $(".right_tab_body").css("display", "block");
 
@@ -115,38 +115,49 @@ $(document).ready(function() {
         $("#tab_left_btn").removeClass("underlined");
 
 
+        const data = {};
+        data.order = order_list;
+        data.user_id = userId;
+        data.group_id = groupId;
 
-        fetchDataMakeUl(order_list);
+        console.log(data, data.user_id, data.group_id, data.order);
+        const result = fetchDataMakeUl(data);
 
-
-
-        updateGruppo(order_list);
     });
 
-    async function fetchDataMakeUl(order_list = []) {
+    async function fetchDataMakeUl(data={}) {
         const csrfToken = $("meta[name='csrf-token']").attr("content");
         let origin = location.origin;
 
-        let response = await fetch(origin + '/manage_order', {
+        if (Object.keys(data).length === 0){
+            data.group_id = groupId;
+        }
+
+        console.log("fetchDataMakeUl : ");
+        console.log("data : ", data);
+
+        let response = await fetch(origin + '/add_order', {
             method: "POST",
             credentials: "same-origin",
             headers: {
                 "Content-Type": "application/json",
                 "X-CSRF-TOKEN": csrfToken,
             },
-            body: JSON.stringify(order_list),
+            body: JSON.stringify(data),
         });
 
         const result = await response.json();
-        console.log("Success:", result);
 
-        let ul = $("#dish_codes_ul");
-        ul.empty();
 
+        makeUl(result);
         // $.each(result, function (key, value) {
         //     var li = $("<li><span class='dish_code'>" + key + "</span>-<span class='dish_qantity'>" + value + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + value + "</span></li></ul></li>");
         //     ul.append(li);
         // });
+    }
+
+    function makeUl(result){
+        ul.empty();
 
         result.forEach(function(item) {
             var li = $("<li><span class='dish_code'>" + item.plate_code + "</span>-<span class='dish_quantity'>" + item.total_quantity + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + item.total_quantity + "</span></li></ul></li>");
@@ -154,24 +165,6 @@ $(document).ready(function() {
         });
     }
 
-    // Implement your logic for updating the group here
-    function updateGruppo(order_list) {
-        // Loop through the NodeList object.
-        for (let i = 0; i <= order_list.length - 1; i++) {
-            // Implement your logic here
-        }
-    }
-
-    function updateUlGruppo() {
-        const ul = $(".order_list");
-        console.log(ul);
-        const listItems = ul.find("li");
-
-        // Loop through the NodeList object.
-        listItems.each(function (index, item) {
-            console.log(item);
-        });
-    }
 });
 
 

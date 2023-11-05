@@ -2114,6 +2114,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 $(document).ready(function () {
   var order_list = {};
   var group_list = {};
+  var userId = $('#user_id').attr('data-user_id');
+  var groupId = $('#group_id').attr('data-group_id');
   var add_plate_button = $("#add_plate_button");
   var create_item_section = $(".create_item_section");
   var create_item_button_confirm = $("#create_item_button_confirm");
@@ -2122,23 +2124,19 @@ $(document).ready(function () {
   var new_group_button = $("#new_group_button");
   var new_name = $("#new_name");
   var btn_start_order = $("#btn_start_order");
+  var ul = $("#dish_codes_ul");
 
   //
   btn_start_order.on("click", function () {
-    console.log("ciao");
     var join_link = $("#join_link").text();
-    // console.log(join_link);
     window.location.href = join_link;
   });
 
   //
   new_group_button.on("click", function () {
-    console.log("clicked newGroupName");
     var newGroupName = new_group_name.val();
     var newName = new_name.val();
     window.location.href = "http://localhost:8080/group_details/" + newGroupName + "/" + newName;
-    // console.log(newGroupName);
-    // console.log(newName);
   });
 
   // When the "Add Plate" button is clicked, show the "create_item" div and hide the button
@@ -2198,7 +2196,7 @@ $(document).ready(function () {
     $("#tab_right_btn").removeClass("underlined");
   });
 
-  // When the "Group Order" button is clicked, call the updateGruppo function and toggle tab styles
+  // When the "Group Order" tab button is clicked, call the updateGruppo function and toggle tab styles
   $("#tab_right_btn").on("click", function () {
     fetchDataMakeUl();
     $(".left_tab_body").css("display", "none");
@@ -2209,63 +2207,61 @@ $(document).ready(function () {
 
   // When the "Send Order to Group" button is clicked, call the updateGruppo function, update the UI, and upload data
   $("#btn_ordine_al_gruppo").on("click", function () {
-    // updateGruppo(order_list);
-    // $groupOrder = getGroupOrder();
-    console.log("ciaooooo");
+    console.log("Send Order to Group ...");
     $(".left_tab_body").css("display", "none");
     $(".right_tab_body").css("display", "block");
     $("#tab_right_btn").addClass("underlined");
     $("#tab_left_btn").removeClass("underlined");
-    fetchDataMakeUl(order_list);
-    updateGruppo(order_list);
+    var data = {};
+    data.order = order_list;
+    data.user_id = userId;
+    data.group_id = groupId;
+    console.log(data, data.user_id, data.group_id, data.order);
+    var result = fetchDataMakeUl(data);
   });
   function fetchDataMakeUl() {
     return _fetchDataMakeUl.apply(this, arguments);
-  } // Implement your logic for updating the group here
+  }
   function _fetchDataMakeUl() {
     _fetchDataMakeUl = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      var order_list,
+      var data,
         csrfToken,
         origin,
         response,
         result,
-        ul,
         _args = arguments;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            order_list = _args.length > 0 && _args[0] !== undefined ? _args[0] : [];
+            data = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
             csrfToken = $("meta[name='csrf-token']").attr("content");
             origin = location.origin;
-            _context.next = 5;
-            return fetch(origin + '/manage_order', {
+            if (Object.keys(data).length === 0) {
+              data.group_id = groupId;
+            }
+            console.log("fetchDataMakeUl : ");
+            console.log("data : ", data);
+            _context.next = 8;
+            return fetch(origin + '/add_order', {
               method: "POST",
               credentials: "same-origin",
               headers: {
                 "Content-Type": "application/json",
                 "X-CSRF-TOKEN": csrfToken
               },
-              body: JSON.stringify(order_list)
+              body: JSON.stringify(data)
             });
-          case 5:
-            response = _context.sent;
-            _context.next = 8;
-            return response.json();
           case 8:
+            response = _context.sent;
+            _context.next = 11;
+            return response.json();
+          case 11:
             result = _context.sent;
-            console.log("Success:", result);
-            ul = $("#dish_codes_ul");
-            ul.empty();
-
+            makeUl(result);
             // $.each(result, function (key, value) {
             //     var li = $("<li><span class='dish_code'>" + key + "</span>-<span class='dish_qantity'>" + value + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + value + "</span></li></ul></li>");
             //     ul.append(li);
             // });
-
-            result.forEach(function (item) {
-              var li = $("<li><span class='dish_code'>" + item.plate_code + "</span>-<span class='dish_quantity'>" + item.total_quantity + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + item.total_quantity + "</span></li></ul></li>");
-              ul.append(li);
-            });
           case 13:
           case "end":
             return _context.stop();
@@ -2274,20 +2270,11 @@ $(document).ready(function () {
     }));
     return _fetchDataMakeUl.apply(this, arguments);
   }
-  function updateGruppo(order_list) {
-    // Loop through the NodeList object.
-    for (var i = 0; i <= order_list.length - 1; i++) {
-      // Implement your logic here
-    }
-  }
-  function updateUlGruppo() {
-    var ul = $(".order_list");
-    console.log(ul);
-    var listItems = ul.find("li");
-
-    // Loop through the NodeList object.
-    listItems.each(function (index, item) {
-      console.log(item);
+  function makeUl(result) {
+    ul.empty();
+    result.forEach(function (item) {
+      var li = $("<li><span class='dish_code'>" + item.plate_code + "</span>-<span class='dish_quantity'>" + item.total_quantity + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + item.total_quantity + "</span></li></ul></li>");
+      ul.append(li);
     });
   }
 });

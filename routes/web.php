@@ -18,16 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/group_details', function () {
-//     return view('group_details');
-// });
-
-Route::get('/join/{group_id}', function ($group_id) {
-
-
-    return view('main');
-});
-
 Route::get('/group_details/{group}/{name}', function ($groupName, $name) {
 
     $orderController = new OrderController();
@@ -37,16 +27,21 @@ Route::get('/group_details/{group}/{name}', function ($groupName, $name) {
     return view('group_details', $response);
 });
 
-Route::post('/manage_order', function (Request $request) {
+Route::get('/join/{group_id}/{user_id}', function ($group_id, $user_id) {
+
+    return view('main',['group_id'=> $group_id, 'user_id' => $user_id]);
+});
+//     return view('group_details');
+// });
+
+Route::post('/add_order', function (Request $request) {
 
     $data = $request->json()->all();
 
-    // Creare un'istanza di OrderController
     $orderController = new OrderController();
 
-    // Chiamare la funzione manageOrder sulla classe OrderController e passare $data come parametro
-    $response = $orderController->manageOrder($data);
-// dump($response, response()->json($response));
+    $response = $orderController->addOrder($data);
+
     return response()->json($response);
 });
 
