@@ -44,14 +44,15 @@ class OrderController extends Controller
     public function addOrder($data)
     {
         $order = isset($data['order']) ? $data['order'] : [];
+        $userId = $data['user_id'];
         $groupId = $data['group_id'];
         $tableName = 'user_order_table';
 
         foreach ($order as $key => $value){
             // Puoi anche utilizzare il metodo `insertGetId` per ottenere l'ID del record appena inserito
             DB::table($tableName)->insert([
-                'user_id' => $data['user_id'],
-                'group_id' => $data['group_id'],
+                'user_id' => $userId,
+                'group_id' => $groupId,
                 'plate_code' => $key,
                 'quantity' => $value,
             ]);

@@ -2124,7 +2124,8 @@ $(document).ready(function () {
   var new_group_button = $("#new_group_button");
   var new_name = $("#new_name");
   var btn_start_order = $("#btn_start_order");
-  var ul = $("#dish_codes_ul");
+  var ul = $("#order_list_items");
+  var group_ul = $("#dish_codes_ul");
 
   //
   btn_start_order.on("click", function () {
@@ -2164,10 +2165,9 @@ $(document).ready(function () {
     $("#input_quantity").val(1);
     var ul = $("#order_list_items");
     ul.empty();
-    $.each(order_list, function (key, value) {
-      var li = $("<li><span>" + key + "</span> <span>" + value + "</span></li>");
-      ul.prepend(li);
-    });
+    // console.log(order_list[dish_code],quantity);
+    /////////////////////////////////////////////////////////////
+    updateUserUl();
   });
 
   // When the "-" button is clicked, decrease the input value
@@ -2216,7 +2216,8 @@ $(document).ready(function () {
     data.order = order_list;
     data.user_id = userId;
     data.group_id = groupId;
-    console.log(data, data.user_id, data.group_id, data.order);
+
+    // console.log(data, data.user_id, data.group_id, data.order);
     var result = fetchDataMakeUl(data);
   });
   function fetchDataMakeUl() {
@@ -2271,10 +2272,51 @@ $(document).ready(function () {
     return _fetchDataMakeUl.apply(this, arguments);
   }
   function makeUl(result) {
-    ul.empty();
+    group_ul.empty();
+    console.log(result);
     result.forEach(function (item) {
       var li = $("<li><span class='dish_code'>" + item.plate_code + "</span>-<span class='dish_quantity'>" + item.total_quantity + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + item.total_quantity + "</span></li></ul></li>");
-      ul.append(li);
+      group_ul.append(li);
+    });
+  }
+
+  // Your custom function
+  function updateUserUl() {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    console.log(key, value);
+    if (key != '') {
+      order_list[key] = value;
+    }
+    // Implement your custom logic here based on the key and action
+    // console.log("Custom function called with key: " + key + " and action: " + action);
+    ul.empty();
+
+    // take data user order from db
+    // console.log(order_list);
+
+    Object.entries(order_list).forEach(function (item) {
+      console.log('(order_list).forEach : ');
+      // console.log(item);
+      var li = $("<li><span>" + item[0] + "</span> <span><button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\" class=\"btn_minus_li btn_round bg_red\">-</button>" + item[1] + "<button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\"  class=\"btn_plus_li btn_round bg_yellow\">+</button></span></li>");
+      ul.prepend(li);
+      // console.log(li, item);
+
+      // Add click event listener to the minus button
+      li.find('.btn_minus_li').click(function (e) {
+        console.log('btn minus was clicked');
+        var min_li_key = e.target.getAttribute('data-key');
+        var min_li_value = e.target.getAttribute('data-value');
+        updateUserUl(min_li_key, min_li_value - 1); // Call your custom function with the key and an action
+      });
+
+      // Add click event listener to the plus button
+      li.find('.btn_plus_li').click(function (e) {
+        console.log('btn plus was clicked');
+        var plus_li_key = e.target.getAttribute('data-key');
+        var plus_li_value = e.target.getAttribute('data-value');
+        updateUserUl(plus_li_key, +plus_li_value + 1); // Call your custom function with the key and an action
+      });
     });
   }
 });
