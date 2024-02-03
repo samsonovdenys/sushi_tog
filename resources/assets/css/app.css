@@ -248,6 +248,7 @@ hr {
     background-color: lightseagreen;
 }
 
+
 .right_tab_ul_level_3 {
     padding: 5px;
     margin: 10px;
@@ -255,8 +256,17 @@ hr {
     border-radius: 10px;
     border: 1px solid whitesmoke;
     background-color: rgba(54, 54, 54, 0.9);
+
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1.2s ease-in-out, visibility 1.7s ease-in-out;
+    visibility: hidden;
 }
 
+.right_tab_ul_level_3.expanded {
+    max-height: 1000px; /* Assicurati che questo valore sia maggiore dell'altezza massima prevista del contenuto */
+    visibility: visible;
+}
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*-------------------*/

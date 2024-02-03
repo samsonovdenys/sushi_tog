@@ -14,35 +14,27 @@ use App\Http\Controllers\OrderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/group_details/{group}/{name}', function ($groupName, $name) {
-
-    $orderController = new OrderController();
-
-    $response = $orderController->createGroup($groupName, $name);
-
-    return view('group_details', $response);
-});
-
-Route::get('/join/{group_id}/{user_id}', function ($group_id, $user_id) {
-
-    return view('main',['group_id'=> $group_id, 'user_id' => $user_id]);
-});
-//     return view('group_details');
+// WELCOME
+// Route::get('/', function () {
+//     return view('welcome');
 // });
 
-Route::post('/add_order', function (Request $request) {
+// Route::get('/group', [OrderController::class, 'group']);
 
-    $data = $request->json()->all();
+// Nella scrermata 'group' devi inserire il Nome del Gruppo o il link to join.
+Route::get('/', [OrderController::class, 'group']);
 
-    $orderController = new OrderController();
+// Se crei il Gruppo nuovo, vieni indirezzato al crete_group che creera group_id e passa a join, che a sua volta
+Route::get('/crete_group/{group_name}', [OrderController::class, 'creteGroup']);
 
-    $response = $orderController->addOrder($data);
+// Vieni indirizzato alla schermata details, dove sei obbligato ad inserire il Nome
+Route::get('/join/{group_id}', [OrderController::class, 'join']);
 
-    return response()->json($response);
-});
+// Nella schermata 'details' devi inserire Nome e cliccare 'Comincia ordinare'
+Route::get('/details', [OrderController::class, 'details']);
+
+Route::get('/order/{user_name}', [OrderController::class, 'order']);
+
+Route::post('/add_order', [OrderController::class, 'addOrder']);
 
 

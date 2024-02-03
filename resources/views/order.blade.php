@@ -21,7 +21,7 @@
             @include('partials.right_tab')
 
         </div>
-        <div id="user_id" data-user_id="{{ $user_id }}"></div>
-        <div id="group_id" data-group_id="{{ $group_id }}"></div>
+        {{-- <div id="user_id" data-user_id="{{ $user_id }}"></div>
+        <div id="group_id" data-group_id="{{ $group_id }}"></div> --}}
     </div>
 @endsection

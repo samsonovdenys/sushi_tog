@@ -26,19 +26,14 @@
 
 @section('content')
     <div class="content">
-        <hr>
-        <p class="text_component">Scegli il tuo nickname (obbligatorio)</p>
-        <input id="new_name" class="input_component" placeholder="Stefano">
-        <p class="text_component">Seleziona l’Emoji del tuo Avatar (opzionale)</p>
-        <button class="button_component" disabled>Usa emoji casuale</button>
-        <hr>
+        
         <div style="flex: 1;">
             <p class="text_component">Inserisci il codice per unirti ad un gruppo esistente</p>
-            <input class="input_component" type="text" placeholder="IHB-WXG-SDT">
-            <button class="button_component bg_green">Unisciti al gruppo</button>
+            <input id="join_group_id" class="input_component" type="text" placeholder="IHB-WXG-SDT...">
+            <button id="join_group_button" class="button_component bg_green">Unisciti al gruppo</button>
             <hr>
         </div>
-        <p  class="text_component">Oppure Crea il tuo nuovo gruppo</p>
+        <p class="text_component">Oppure Crea il tuo nuovo gruppo</p>
         <input id="new_group_name" class="input_component" placeholder="Mio nuovo gruppo">
         <button id="new_group_button" class="button_component bg_yellow">Crea nuovo gruppo</button>
     </div>

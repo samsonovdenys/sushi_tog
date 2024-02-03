@@ -2122,22 +2122,30 @@ $(document).ready(function () {
   var create_item_button_cancel = $("#create_item_button_cancel");
   var new_group_name = $("#new_group_name");
   var new_group_button = $("#new_group_button");
-  var new_name = $("#new_name");
-  var btn_start_order = $("#btn_start_order");
+  var join_group_id = $("#join_group_id");
+  var join_group_button = $("#join_group_button");
+  var new_user_name = $("#new_name");
+  var beginOrder = $("#begin_order_btn");
   var ul = $("#order_list_items");
   var group_ul = $("#dish_codes_ul");
 
   //
-  btn_start_order.on("click", function () {
-    var join_link = $("#join_link").text();
-    window.location.href = join_link;
+  beginOrder.on("click", function () {
+    var newUserName = encodeURIComponent(new_user_name.val());
+    window.location.href = "http://localhost:8080/order/" + newUserName;
+  });
+
+  //
+  join_group_button.on("click", function () {
+    var joinGroupId = encodeURIComponent(join_group_id.val());
+    window.location.href = "http://localhost:8080/join/" + joinGroupId;
   });
 
   //
   new_group_button.on("click", function () {
-    var newGroupName = new_group_name.val();
-    var newName = new_name.val();
-    window.location.href = "http://localhost:8080/group_details/" + newGroupName + "/" + newName;
+    var newGroupName = encodeURIComponent(new_group_name.val());
+    console.log(newGroupName);
+    window.location.href = "http://localhost:8080/crete_group/" + newGroupName;
   });
 
   // When the "Add Plate" button is clicked, show the "create_item" div and hide the button
@@ -2198,7 +2206,6 @@ $(document).ready(function () {
 
   // When the "Group Order" tab button is clicked, call the updateGruppo function and toggle tab styles
   $("#tab_right_btn").on("click", function () {
-    fetchDataMakeUl();
     $(".left_tab_body").css("display", "none");
     $(".right_tab_body").css("display", "block");
     $("#tab_right_btn").addClass("underlined");
@@ -2207,7 +2214,7 @@ $(document).ready(function () {
 
   // When the "Send Order to Group" button is clicked, call the updateGruppo function, update the UI, and upload data
   $("#btn_ordine_al_gruppo").on("click", function () {
-    console.log("Send Order to Group ...");
+    console.log("Sending Order to Group ...");
     $(".left_tab_body").css("display", "none");
     $(".right_tab_body").css("display", "block");
     $("#tab_right_btn").addClass("underlined");
@@ -2219,6 +2226,10 @@ $(document).ready(function () {
 
     // console.log(data, data.user_id, data.group_id, data.order);
     var result = fetchDataMakeUl(data);
+    order_list = {};
+    ul.empty();
+    create_item_section.css("display", "none");
+    add_plate_button.css("display", "block");
   });
   function fetchDataMakeUl() {
     return _fetchDataMakeUl.apply(this, arguments);
@@ -2241,7 +2252,7 @@ $(document).ready(function () {
               data.group_id = groupId;
             }
             console.log("fetchDataMakeUl : ");
-            console.log("data : ", data);
+            console.log("_ data : ", data);
             _context.next = 8;
             return fetch(origin + '/add_order', {
               method: "POST",
@@ -2273,12 +2284,43 @@ $(document).ready(function () {
   }
   function makeUl(result) {
     group_ul.empty();
-    console.log(result);
-    result.forEach(function (item) {
-      var li = $("<li><span class='dish_code'>" + item.plate_code + "</span>-<span class='dish_quantity'>" + item.total_quantity + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + item.total_quantity + "</span></li></ul></li>");
+
+    // Itera sull'oggetto restituito
+    for (var plateCode in result) {
+      var total = result[plateCode].total;
+      var details = result[plateCode].details;
+      var li = "<li class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span>";
+      li += "<ul class='right_tab_ul_level_3'>";
+      for (var user in details) {
+        li += "<li>" + user + " - <span class='user_quantity'>" + details[user] + " pezzi </span></li>";
+      }
+      li += "</ul></li><hr>";
       group_ul.append(li);
-    });
+    }
   }
+
+  // Your custom function
+  var dishCodes = document.querySelectorAll('.dish_li');
+  dishCodes.forEach(function (code) {
+    code.addEventListener('click', function (event) {
+      // Trova il prossimo UL rispetto al genitore LI del codice del piatto cliccato
+      var parentLi = event.target.closest('li');
+      var nextUl = parentLi.querySelector('.right_tab_ul_level_3');
+      if (nextUl.classList.contains('expanded')) {
+        nextUl.classList.remove('expanded');
+        // nextUl.style.maxHeight = '0'; // Inizia l'animazione di chiusura
+      } else {
+        // Per aprire, prima imposta max-height a 'none' per calcolare l'altezza
+        // nextUl.style.maxHeight = 'none';
+        // const height = nextUl.offsetHeight + 'px'; // Calcola l'altezza reale
+        // nextUl.style.maxHeight = '0'; // Resetta per permettere l'animazione
+        requestAnimationFrame(function () {
+          nextUl.classList.add('expanded');
+          // nextUl.style.maxHeight = height; // Inizia l'animazione di apertura
+        });
+      }
+    });
+  });
 
   // Your custom function
   function updateUserUl() {

@@ -8,65 +8,138 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
 
-    function __construct(){
+    // To do:
+    // Ora funziona tutto bene, bisogna
+    // string to lower per user_id e group_id
 
+    public function group(){
+        return view('group');
     }
-    public function createGroup($groupName, $name)
-    {
 
-        $groupId = str_replace(" ", "", $groupName) . "_" . uniqid();
-
-        $userId = $this->createUser($groupId, $name);
+    public function creteGroup($group_name){
+        // Create group_id from group_name
+        // Return 'details' page with group_id and group_name and join link and barcode.
+        $groupName = $group_name;
+        $groupId = $this->makeUnique(str_replace(" ", "_", strtolower($groupName)));
+        $joinLink = 'http://localhost:8080/join/'.$groupId;
 
         DB::table('group_table')->insert([
             'group_id' => $groupId,
             'group_name' => $groupName
         ]);
 
-
-        $link_ToCode = 'http://localhost:8080/join/'.$groupId.'/'.$userId;
-
-        return ['group_name' => $groupName,'join_link' => $link_ToCode, 'group_id' => $groupId, 'user_id' => $userId];
-    }
-
-    public function createUser($groupId, $name)
-    {
-        $userId = $name . "_" . uniqid();
-
-        DB::table('user_table')->insert([
-            'user_id' => $userId,
+        session([
             'group_id' => $groupId,
-            'nickname' => $name
+            'group_name'=> $groupName,
+            'join_link' => $joinLink
         ]);
-        return $userId;
+
+        return view('details',[
+            'group_id' => $groupId,
+            'group_name' => $groupName,
+            'join_link' => $joinLink
+        ]);
     }
 
-    public function addOrder($data)
-    {
+    public function join($group_id){
+        // Prende il nome del gruppo dal DB
+        // Return 'details' page with group_id and group_name and join link and barcode.
+        $groupName = DB::table('group_table')
+                            ->select('group_name')
+                            ->where('group_id', $group_id)
+                            ->get();
+
+        $groupName = $groupName[0]->group_name;
+        $joinLink = 'http://localhost:8080/join/'.$group_id;
+
+        session([
+            'group_id' => $group_id,
+            'group_name'=> $groupName,
+            'join_link' => $joinLink
+        ]);
+
+        return view('details',[
+            'group_id' => $group_id,
+            'group_name' => $groupName,
+            'join_link' => $joinLink
+        ]);
+    }
+
+    public function order($user_name){
+        // Creo user_id dal user_name
+        // Ritorno group_id, group_name, user_id, user_name, join_link, avatar
+
+        $userId = $this->makeUnique(str_replace(" ", "_", strtolower($user_name)));
+
+        session([
+            'user_id' => $userId,
+            'user_name' => $user_name
+        ]);
+
+        return view('order', [
+            'group_id' => session('group_id'),
+            'group_name' => session('group_name'),
+            'user_id' => $userId,
+            'user_name' => $user_name,
+            'join_link' => session('join_link')]);
+    }
+
+    public function addOrder(Request $request){
+
+        $data = $request->json()->all();
+
         $order = isset($data['order']) ? $data['order'] : [];
-        $userId = $data['user_id'];
-        $groupId = $data['group_id'];
-        $tableName = 'user_order_table';
+
+        $tableName = 'order_table';
 
         foreach ($order as $key => $value){
             // Puoi anche utilizzare il metodo `insertGetId` per ottenere l'ID del record appena inserito
             DB::table($tableName)->insert([
-                'user_id' => $userId,
-                'group_id' => $groupId,
+                'group_id' => session('group_id'),
+                'user_id' => session('user_id'),
+                'user_name' => session('user_name'),
                 'plate_code' => $key,
                 'quantity' => $value,
             ]);
         }
 
 
-        $results = DB::table($tableName)
-                    ->select('plate_code', DB::raw('SUM(quantity) as total_quantity'))
-                    ->where('group_id', $groupId)
-                    ->groupBy('plate_code')
+        $collection = DB::table($tableName)
+                    ->select('plate_code', 'user_name', DB::raw('SUM(quantity) as total_quantity'))
+                    ->where('group_id', session('group_id'))
+                    ->groupBy('plate_code', 'user_name')
                     ->get();
 
+        $results = [];
 
-        return $results;
+        foreach ($collection as $item) {
+            $plateCode = $item->plate_code;
+            $userName = $item->user_name;
+            $quantity = (int) $item->total_quantity;
+
+            if (!isset($results[$plateCode])) {
+                $results[$plateCode] = [
+                    'total' => 0,
+                    'details' => []
+                ];
+            }
+
+            $results[$plateCode]['total'] += $quantity;
+
+            if (!isset($results[$plateCode]['details'][$userName])) {
+                $results[$plateCode]['details'][$userName] = 0;
+            }
+
+            $results[$plateCode]['details'][$userName] += $quantity;
+        }
+
+        // dd($results);
+        return response()->json($results);
     }
+
+    public function makeUnique($name){
+        return $name . "_" . uniqid();
+    }
+
 
 }
