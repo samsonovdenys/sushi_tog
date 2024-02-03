@@ -259,7 +259,7 @@ hr {
 
     max-height: 0;
     overflow: hidden;
-    transition: max-height 1.2s ease-in-out, visibility 1.7s ease-in-out;
+    transition: max-height 1.3s ease-in-out, visibility 1.5s ease-in-out;
     visibility: hidden;
 }
 
@@ -268,6 +268,9 @@ hr {
     visibility: visible;
 }
 
+.dish_li li{
+
+}
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*-------------------*/
 /*MEDIA QUERYs*/

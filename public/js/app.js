@@ -2128,6 +2128,8 @@ $(document).ready(function () {
   var beginOrder = $("#begin_order_btn");
   var ul = $("#order_list_items");
   var group_ul = $("#dish_codes_ul");
+  var dishCodes = document.querySelectorAll('.dish_li');
+  addListenersToUl(dishCodes);
 
   //
   beginOrder.on("click", function () {
@@ -2289,7 +2291,7 @@ $(document).ready(function () {
     for (var plateCode in result) {
       var total = result[plateCode].total;
       var details = result[plateCode].details;
-      var li = "<li class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span>";
+      var li = "<li><div class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span></div>";
       li += "<ul class='right_tab_ul_level_3'>";
       for (var user in details) {
         li += "<li>" + user + " - <span class='user_quantity'>" + details[user] + " pezzi </span></li>";
@@ -2297,30 +2299,31 @@ $(document).ready(function () {
       li += "</ul></li><hr>";
       group_ul.append(li);
     }
+    dishCodes = document.querySelectorAll('.dish_li');
+    addListenersToUl(dishCodes);
   }
-
-  // Your custom function
-  var dishCodes = document.querySelectorAll('.dish_li');
-  dishCodes.forEach(function (code) {
-    code.addEventListener('click', function (event) {
-      // Trova il prossimo UL rispetto al genitore LI del codice del piatto cliccato
-      var parentLi = event.target.closest('li');
-      var nextUl = parentLi.querySelector('.right_tab_ul_level_3');
-      if (nextUl.classList.contains('expanded')) {
-        nextUl.classList.remove('expanded');
-        // nextUl.style.maxHeight = '0'; // Inizia l'animazione di chiusura
-      } else {
-        // Per aprire, prima imposta max-height a 'none' per calcolare l'altezza
-        // nextUl.style.maxHeight = 'none';
-        // const height = nextUl.offsetHeight + 'px'; // Calcola l'altezza reale
-        // nextUl.style.maxHeight = '0'; // Resetta per permettere l'animazione
-        requestAnimationFrame(function () {
-          nextUl.classList.add('expanded');
-          // nextUl.style.maxHeight = height; // Inizia l'animazione di apertura
-        });
-      }
+  function addListenersToUl(dishCodes) {
+    dishCodes.forEach(function (code) {
+      code.addEventListener('click', function (event) {
+        // Trova il prossimo UL rispetto al genitore LI del codice del piatto cliccato
+        var parentLi = event.target.closest('li');
+        var nextUl = parentLi.querySelector('.right_tab_ul_level_3');
+        if (nextUl.classList.contains('expanded')) {
+          nextUl.classList.remove('expanded');
+          // nextUl.style.maxHeight = '0'; // Inizia l'animazione di chiusura
+        } else {
+          // Per aprire, prima imposta max-height a 'none' per calcolare l'altezza
+          // nextUl.style.maxHeight = 'none';
+          // const height = nextUl.offsetHeight + 'px'; // Calcola l'altezza reale
+          // nextUl.style.maxHeight = '0'; // Resetta per permettere l'animazione
+          requestAnimationFrame(function () {
+            nextUl.classList.add('expanded');
+            // nextUl.style.maxHeight = height; // Inizia l'animazione di apertura
+          });
+        }
+      });
     });
-  });
+  }
 
   // Your custom function
   function updateUserUl() {
@@ -2330,16 +2333,9 @@ $(document).ready(function () {
     if (key != '') {
       order_list[key] = value;
     }
-    // Implement your custom logic here based on the key and action
-    // console.log("Custom function called with key: " + key + " and action: " + action);
     ul.empty();
-
-    // take data user order from db
-    // console.log(order_list);
-
     Object.entries(order_list).forEach(function (item) {
       console.log('(order_list).forEach : ');
-      // console.log(item);
       var li = $("<li><span>" + item[0] + "</span> <span><button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\" class=\"btn_minus_li btn_round bg_red\">-</button>" + item[1] + "<button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\"  class=\"btn_plus_li btn_round bg_yellow\">+</button></span></li>");
       ul.prepend(li);
       // console.log(li, item);
