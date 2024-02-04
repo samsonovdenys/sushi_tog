@@ -2121,15 +2121,25 @@ $(document).ready(function () {
   var create_item_button_confirm = $("#create_item_button_confirm");
   var create_item_button_cancel = $("#create_item_button_cancel");
   var new_group_name = $("#new_group_name");
+  var new_user_name = $("#new_name");
   var new_group_button = $("#new_group_button");
   var join_group_id = $("#join_group_id");
   var join_group_button = $("#join_group_button");
-  var new_user_name = $("#new_name");
   var beginOrder = $("#begin_order_btn");
+  var iniziamoBtn = $("#iniziamo_btn");
+  var joinGroupBtn = $("#join_group_btn");
   var ul = $("#order_list_items");
   var group_ul = $("#dish_codes_ul");
   var dishCodes = document.querySelectorAll('.dish_li');
   addListenersToUl(dishCodes);
+  joinGroupBtn.on("click", function () {
+    window.location.href = "http://localhost:8080/user/";
+  });
+
+  //
+  iniziamoBtn.on("click", function () {
+    window.location.href = "http://localhost:8080/group/";
+  });
 
   //
   beginOrder.on("click", function () {

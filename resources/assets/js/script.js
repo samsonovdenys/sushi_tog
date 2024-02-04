@@ -4,22 +4,41 @@ $(document).ready(function() {
 
     let userId = $('#user_id').attr('data-user_id');
     let groupId = $('#group_id').attr('data-group_id');
+
     let add_plate_button = $("#add_plate_button");
     let create_item_section = $(".create_item_section");
     let create_item_button_confirm = $("#create_item_button_confirm");
     let create_item_button_cancel = $("#create_item_button_cancel");
+
     let new_group_name = $("#new_group_name");
+    let new_user_name = $("#new_name");
+
     let new_group_button = $("#new_group_button");
+
     let join_group_id = $("#join_group_id");
     let join_group_button = $("#join_group_button");
-    let new_user_name = $("#new_name");
+
+
     let beginOrder = $("#begin_order_btn");
+    let iniziamoBtn = $("#iniziamo_btn");
+    let joinGroupBtn = $("#join_group_btn");
+
     let ul = $("#order_list_items");
     let group_ul = $("#dish_codes_ul");
 
     let dishCodes = document.querySelectorAll('.dish_li');
 
     addListenersToUl(dishCodes);
+
+
+    joinGroupBtn.on("click", function () {
+        window.location.href = "http://localhost:8080/user/";
+    });
+
+    //
+    iniziamoBtn.on("click", function () {
+        window.location.href = "http://localhost:8080/group/";
+    });
 
     //
     beginOrder.on("click", function () {

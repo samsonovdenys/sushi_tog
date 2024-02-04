@@ -38,12 +38,13 @@ main {
     color:white;
     display:flex;
     flex-direction: column;
+    justify-content: space-around;
     min-height: 88vh;
 }
 
 footer {
     height: 3vh;
-    padding: 0 10px;
+    padding: 0 20px;
 }
 
 hr {
@@ -76,7 +77,7 @@ hr {
 }
 
 .text_component {
-    padding: 8px 0px;
+    padding: 30px 0px;
     text-align: center;
     font-size: 18px;
     font-style: italic;
@@ -94,6 +95,10 @@ hr {
     text-align: center;
 }
 
+.bg_grey {
+    background-color: rgb(240, 240, 240);
+    color: rgb(77, 74, 71);
+}
 .bg_yellow {
     background-color: rgba(255, 182, 41, 1);
 }
@@ -243,9 +248,9 @@ hr {
     padding: 5px;
     margin: 10px;
     border-radius: 10px;
-    border: 1px solid purple;
+    border: 1px solid lightseagreen;
     /* background-color: rgba(59, 137, 145, 1); */
-    background-color: lightseagreen;
+    /* background-color: lightseagreen; */
 }
 
 
@@ -264,7 +269,7 @@ hr {
 }
 
 .right_tab_ul_level_3.expanded {
-    max-height: 1000px; /* Assicurati che questo valore sia maggiore dell'altezza massima prevista del contenuto */
+    max-height: 500px;
     visibility: visible;
 }
 

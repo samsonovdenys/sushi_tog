@@ -15,14 +15,20 @@ use App\Http\Controllers\OrderController;
 |
 */
 // WELCOME
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Route::get('/group', [OrderController::class, 'group']);
 
 // Nella scrermata 'group' devi inserire il Nome del Gruppo o il link to join.
-Route::get('/', [OrderController::class, 'group']);
+Route::get('/group', [OrderController::class, 'group']);
+
+// Nella scrermata 'user' devi inserire il Nome del user o il link to join.
+Route::get('/user', function () {
+    return view('user');
+});
+// Route::get('/user', [OrderController::class, 'user']);
 
 // Se crei il Gruppo nuovo, vieni indirezzato al crete_group che creera group_id e passa a join, che a sua volta
 Route::get('/crete_group/{group_name}', [OrderController::class, 'creteGroup']);

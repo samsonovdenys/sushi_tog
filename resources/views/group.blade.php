@@ -26,15 +26,17 @@
 
 @section('content')
     <div class="content">
-        
+
         <div style="flex: 1;">
+            <p class="text_component"></p>
             <p class="text_component">Inserisci il codice per unirti ad un gruppo esistente</p>
             <input id="join_group_id" class="input_component" type="text" placeholder="IHB-WXG-SDT...">
             <button id="join_group_button" class="button_component bg_green">Unisciti al gruppo</button>
-            <hr>
+            <p class="text_component"></p>
+            <p class="text_component">Oppure Crea il tuo nuovo gruppo</p>
+            <p class="text_component">Per creare il tuo nuovo gruppo, scegli un nome da dargli</p>
+            <input id="new_group_name" class="input_component" placeholder="Gruppo di sabato sera">
+            <button id="new_group_button" class="button_component bg_yellow">Crea nuovo gruppo</button>
         </div>
-        <p class="text_component">Oppure Crea il tuo nuovo gruppo</p>
-        <input id="new_group_name" class="input_component" placeholder="Mio nuovo gruppo">
-        <button id="new_group_button" class="button_component bg_yellow">Crea nuovo gruppo</button>
     </div>
 @endsection
