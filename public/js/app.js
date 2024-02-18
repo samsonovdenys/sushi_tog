@@ -2323,12 +2323,12 @@ $(document).ready(function () {
           // nextUl.style.maxHeight = '0'; // Inizia l'animazione di chiusura
         } else {
           // Per aprire, prima imposta max-height a 'none' per calcolare l'altezza
-          // nextUl.style.maxHeight = 'none';
-          // const height = nextUl.offsetHeight + 'px'; // Calcola l'altezza reale
-          // nextUl.style.maxHeight = '0'; // Resetta per permettere l'animazione
+          //nextUl.style.maxHeight = 'none';
+          //const height = nextUl.offsetHeight + 'px'; // Calcola l'altezza reale
+          //nextUl.style.maxHeight = '0'; // Resetta per permettere l'animazione
           requestAnimationFrame(function () {
             nextUl.classList.add('expanded');
-            // nextUl.style.maxHeight = height; // Inizia l'animazione di apertura
+            //nextUl.style.maxHeight = height; // Inizia l'animazione di apertura
           });
         }
       });

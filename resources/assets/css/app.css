@@ -255,16 +255,15 @@ hr {
 
 
 .right_tab_ul_level_3 {
-    padding: 5px;
-    margin: 10px;
+    max-height: 0;
     color:white;
     border-radius: 10px;
     border: 1px solid whitesmoke;
     background-color: rgba(54, 54, 54, 0.9);
-
-    max-height: 0;
+    
+    padding: 6px;
     overflow: hidden;
-    transition: max-height 1.3s ease-in-out, visibility 1.5s ease-in-out;
+    transition: max-height 1.0s ease-in, visibility 0.5s ease-in;
     visibility: hidden;
 }
 
