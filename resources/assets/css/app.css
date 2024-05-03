@@ -12,7 +12,8 @@ body {
 }
 
 .background_dark {
-    background-color: rgba(54, 54, 54, 0.9);
+    background-color: rgba(41, 37, 30, 0.96);
+
 }
 
 .wrapper {
@@ -117,6 +118,7 @@ hr {
     padding: 8px;
     font-family: "Satisfy";
     font-size: 40px;
+    font-weight: 800;
     width: 100%;
     text-align: center;
 }

@@ -19,18 +19,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/group', [OrderController::class, 'group']);
 
 // Nella scrermata 'group' devi inserire il Nome del Gruppo o il link to join.
 Route::get('/group', [OrderController::class, 'group']);
 
-// Nella scrermata 'user' devi inserire il Nome del user o il link to join.
+// Nella scrermata 'user' devi inserire il Nome del user.
 Route::get('/user', function () {
     return view('user');
 });
-// Route::get('/user', [OrderController::class, 'user']);
 
-// Se crei il Gruppo nuovo, vieni indirezzato al crete_group che creera group_id e passa a join, che a sua volta
+// Se crei il Gruppo nuovo, vieni indirezzato al crete_group che creera group_id e passa a join.
 Route::get('/crete_group/{group_name}', [OrderController::class, 'creteGroup']);
 
 // Vieni indirizzato alla schermata details, dove sei obbligato ad inserire il Nome

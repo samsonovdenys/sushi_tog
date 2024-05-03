@@ -1,6 +1,5 @@
 $(document).ready(function() {
     let order_list = {};
-    let group_list = {};
 
     let userId = $('#user_id').attr('data-user_id');
     let groupId = $('#group_id').attr('data-group_id');
