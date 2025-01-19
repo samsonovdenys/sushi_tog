@@ -72,23 +72,52 @@ $(document).ready(function() {
 
     // When the "Conferma" button is clicked, insert data from the input fields into the list
     create_item_button_confirm.on("click", function () {
+        const mode = modal.getAttribute('data-mode');
         var dish_code = $("#input_code").val();
         var quantity = $("#input_quantity").val();
 
-        if (order_list[dish_code]) {
-            order_list[dish_code] = parseInt(order_list[dish_code]) + parseInt(quantity);
-        } else {
-            order_list[dish_code] = parseInt(quantity);
+        if (mode === 'edit') {
+            // Modifica la quantità di un piatto esistente
+            if (order_list[dish_code]) {
+                order_list[dish_code] = parseInt(quantity);
+    
+                // Aggiorna la lista visibile
+                updateUserUl();
+            }
+        }else{
+            // Aggiungi un nuovo piatto
+            if (order_list[dish_code]) {
+                order_list[dish_code] += parseInt(quantity);
+            } else {
+                order_list[dish_code] = parseInt(quantity);
+            }
+    
+            // Aggiorna la lista visibile
+            updateUserUl();
         }
+    
+        // Resetta i campi della modale
+        // modal.querySelector('#input_code').value = '';
+        // modal.querySelector('#input_quantity').value = 1;
+    
+        // Chiudi la modale
+        const bootstrapModal = bootstrap.Modal.getInstance(modal);
+        bootstrapModal.hide();
 
-        $("#input_code").val($("#input_code").prop("defaultValue"));
-        $("#input_quantity").val(1);
+//         if (order_list[dish_code]) {
+//             order_list[dish_code] = parseInt(order_list[dish_code]) + parseInt(quantity);
+//         } else {
+//             order_list[dish_code] = parseInt(quantity);
+//         }
 
-        let ul = $("#order_list_items");
-        ul.empty();
+//         $("#input_code").val($("#input_code").prop("defaultValue"));
+//         $("#input_quantity").val(1);
+
+//         let ul = $("#order_list_items");
+//         ul.empty();
 // console.log(order_list[dish_code],quantity);
-/////////////////////////////////////////////////////////////
-        updateUserUl();
+// /////////////////////////////////////////////////////////////
+//         updateUserUl();
 
     });
 
@@ -247,11 +276,32 @@ $(document).ready(function() {
         Object.entries(order_list).forEach(function(item) {
 
             console.log('(order_list).forEach : ');
-            let li = $("<li><span>" + item[0] + "</span> <span><button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\" class=\"btn_minus_li btn_round bg_red\">-</button>" +
-            item[1] + "<button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\"  class=\"btn_plus_li btn_round bg_yellow\">+</button></span></li>");
+            let li = $(`
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${item[0]}
+                    <div>
+                        <span class="badge bg-primary rounded-pill">${item[1]}</span>
+                        <!-- Icona per attivare il popup (modal) -->
+                        <button
+                            type="button"
+                            class="btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                            data-code="${item[0]}" 
+                            data-quantity="${item[1]}"
+                            data-mode="edit">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </li>
+            `);
 
             ul.prepend(li);
-            // console.log(li, item);
+            // console.log("01yo");
+            // console.log(li);
+            // console.log(item);
+            // console.log(order_list);
+            // console.log(ul);
 
             // Add click event listener to the minus button
             li.find('.btn_minus_li').click(function(e) {
@@ -277,10 +327,39 @@ $(document).ready(function() {
         });
 
 
-
-
     }
 
+    const modal = document.getElementById('exampleModal');
+
+// Evento di apertura della modale
+modal.addEventListener('show.bs.modal', function (event) {
+    // Ottieni il pulsante che ha attivato la modale
+    const button = event.relatedTarget;
+
+    // Estrai i dati dal pulsante
+    const mode = button.getAttribute('data-mode'); // add/edit
+    const code = button.getAttribute('data-code');
+    const quantity = button.getAttribute('data-quantity');
+
+    // Popola i campi della modale con i dati
+    const inputCode = modal.querySelector('#input_code');
+    const inputQuantity = modal.querySelector('#input_quantity');
+
+    if (mode === 'edit') {
+        // Modifica quantità esistente
+        const code = button.getAttribute('data-code');
+        const quantity = button.getAttribute('data-quantity');
+
+        inputCode.value = code;
+        inputQuantity.value = quantity;
+
+        // Rendi il campo codice non modificabile
+        inputCode.setAttribute('readonly', true);
+    }
+
+    // Imposta il contesto della modale
+    modal.setAttribute('data-mode', mode);
+});
 });
 
 

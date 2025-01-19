@@ -2113,7 +2113,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 $(document).ready(function () {
   var order_list = {};
-  var group_list = {};
   var userId = $('#user_id').attr('data-user_id');
   var groupId = $('#group_id').attr('data-group_id');
   var add_plate_button = $("#add_plate_button");
@@ -2174,20 +2173,51 @@ $(document).ready(function () {
 
   // When the "Conferma" button is clicked, insert data from the input fields into the list
   create_item_button_confirm.on("click", function () {
+    var mode = modal.getAttribute('data-mode');
     var dish_code = $("#input_code").val();
     var quantity = $("#input_quantity").val();
-    if (order_list[dish_code]) {
-      order_list[dish_code] = parseInt(order_list[dish_code]) + parseInt(quantity);
+    if (mode === 'edit') {
+      // Modifica la quantità di un piatto esistente
+      if (order_list[dish_code]) {
+        order_list[dish_code] = parseInt(quantity);
+
+        // Aggiorna la lista visibile
+        updateUserUl();
+      }
     } else {
-      order_list[dish_code] = parseInt(quantity);
+      // Aggiungi un nuovo piatto
+      if (order_list[dish_code]) {
+        order_list[dish_code] += parseInt(quantity);
+      } else {
+        order_list[dish_code] = parseInt(quantity);
+      }
+
+      // Aggiorna la lista visibile
+      updateUserUl();
     }
-    $("#input_code").val($("#input_code").prop("defaultValue"));
-    $("#input_quantity").val(1);
-    var ul = $("#order_list_items");
-    ul.empty();
+
+    // Resetta i campi della modale
+    // modal.querySelector('#input_code').value = '';
+    // modal.querySelector('#input_quantity').value = 1;
+
+    // Chiudi la modale
+    var bootstrapModal = bootstrap.Modal.getInstance(modal);
+    bootstrapModal.hide();
+
+    //         if (order_list[dish_code]) {
+    //             order_list[dish_code] = parseInt(order_list[dish_code]) + parseInt(quantity);
+    //         } else {
+    //             order_list[dish_code] = parseInt(quantity);
+    //         }
+
+    //         $("#input_code").val($("#input_code").prop("defaultValue"));
+    //         $("#input_quantity").val(1);
+
+    //         let ul = $("#order_list_items");
+    //         ul.empty();
     // console.log(order_list[dish_code],quantity);
-    /////////////////////////////////////////////////////////////
-    updateUserUl();
+    // /////////////////////////////////////////////////////////////
+    //         updateUserUl();
   });
 
   // When the "-" button is clicked, decrease the input value
@@ -2346,9 +2376,13 @@ $(document).ready(function () {
     ul.empty();
     Object.entries(order_list).forEach(function (item) {
       console.log('(order_list).forEach : ');
-      var li = $("<li><span>" + item[0] + "</span> <span><button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\" class=\"btn_minus_li btn_round bg_red\">-</button>" + item[1] + "<button data-key=\"" + item[0] + "\" data-value=\"" + item[1] + "\"  class=\"btn_plus_li btn_round bg_yellow\">+</button></span></li>");
+      var li = $("\n                <li class=\"list-group-item d-flex justify-content-between align-items-center\">\n                    ".concat(item[0], "\n                    <div>\n                        <span class=\"badge bg-primary rounded-pill\">").concat(item[1], "</span>\n                        <!-- Icona per attivare il popup (modal) -->\n                        <button\n                            type=\"button\"\n                            class=\"btn\"\n                            data-bs-toggle=\"modal\"\n                            data-bs-target=\"#exampleModal\"\n                            data-code=\"").concat(item[0], "\" \n                            data-quantity=\"").concat(item[1], "\"\n                            data-mode=\"edit\">\n                            <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n                        </button>\n                    </div>\n                </li>\n            "));
       ul.prepend(li);
-      // console.log(li, item);
+      // console.log("01yo");
+      // console.log(li);
+      // console.log(item);
+      // console.log(order_list);
+      // console.log(ul);
 
       // Add click event listener to the minus button
       li.find('.btn_minus_li').click(function (e) {
@@ -2367,6 +2401,36 @@ $(document).ready(function () {
       });
     });
   }
+
+  var modal = document.getElementById('exampleModal');
+
+  // Evento di apertura della modale
+  modal.addEventListener('show.bs.modal', function (event) {
+    // Ottieni il pulsante che ha attivato la modale
+    var button = event.relatedTarget;
+
+    // Estrai i dati dal pulsante
+    var mode = button.getAttribute('data-mode'); // add/edit
+    var code = button.getAttribute('data-code');
+    var quantity = button.getAttribute('data-quantity');
+
+    // Popola i campi della modale con i dati
+    var inputCode = modal.querySelector('#input_code');
+    var inputQuantity = modal.querySelector('#input_quantity');
+    if (mode === 'edit') {
+      // Modifica quantità esistente
+      var _code = button.getAttribute('data-code');
+      var _quantity = button.getAttribute('data-quantity');
+      inputCode.value = _code;
+      inputQuantity.value = _quantity;
+
+      // Rendi il campo codice non modificabile
+      inputCode.setAttribute('readonly', true);
+    }
+
+    // Imposta il contesto della modale
+    modal.setAttribute('data-mode', mode);
+  });
 });
 
 /***/ }),
