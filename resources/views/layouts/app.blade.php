@@ -25,10 +25,6 @@
                  @yield('content')
             </main>
 
-            {{-- @section('main_tabs')
-                This is the master main_tabs.
-            @show --}}
-
 
             <footer class="background_dark" style="border: 1px solid green;">
                 @include('partials.footer')

@@ -18,11 +18,6 @@
 
 {{-- @section('title', 'Page Title') --}}
 
-{{-- @section('main_tabs')
-    @parent
-
-    <p>This is appended to the master main_tabs.</p>
-@endsection --}}
 
 @section('content')
     <div class="content">
