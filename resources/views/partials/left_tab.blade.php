@@ -38,7 +38,7 @@
 
 </div> -->
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-mode="add">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content  m-3">
             <div class="modal-header">
@@ -69,56 +69,52 @@
 
 <div class="tab-pane fade show active" id="my-order" role="tabpanel" aria-labelledby="my-order-tab">
     <div>
-        <ul id="order_list_items" class="list-group mt-5 shadow">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div><i class="fa-solid fa-utensils"></i> A285</div>
-                <div>
-                    <span class="badge bg-primary rounded-pill">14</span>
-                    <!-- Icona per attivare il popup (modal) -->
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                A list item
-                <div>
-                    <span class="badge bg-primary rounded-pill">11</span>
-                    <!-- Icona per attivare il popup (modal) -->
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                A list item
-                <div>
-                    <span class="badge bg-primary rounded-pill">7</span>
-                    <!-- Icona per attivare il popup (modal) -->
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                A list item
-                <div>
-                    <span class="badge bg-primary rounded-pill">999</span>
-                    <!-- Icona per attivare il popup (modal) -->
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-                </div>
-            </li>
-        </ul>
+    <ul id="order_list_items" class="list-group mt-5 shadow"><li class="list-group-item d-flex justify-content-between align-items-center">
+                    a3
+                    <div>
+                        <span class="badge bg-primary rounded-pill">3</span>
+                        <!-- Icona per attivare il popup (modal) -->
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="a3" data-quantity="3" data-mode="edit">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </li><li class="list-group-item d-flex justify-content-between align-items-center">
+                    a2
+                    <div>
+                        <span class="badge bg-primary rounded-pill">1</span>
+                        <!-- Icona per attivare il popup (modal) -->
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="a2" data-quantity="1" data-mode="edit">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </li><li class="list-group-item d-flex justify-content-between align-items-center">
+                    a1
+                    <div>
+                        <span class="badge bg-primary rounded-pill">2</span>
+                        <!-- Icona per attivare il popup (modal) -->
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="a1" data-quantity="2" data-mode="edit">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </li><li class="list-group-item d-flex justify-content-between align-items-center">
+                    A001
+                    <div>
+                        <span class="badge bg-primary rounded-pill">1</span>
+                        <!-- Icona per attivare il popup (modal) -->
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="A001" data-quantity="1" data-mode="edit">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </li></ul>
     </div>
     <!-- Contenuto per 'Il mio ordine' -->
 
     <!-- Button at the bottom right of the body -->
-    <button class="btn btn-primary position-fixed" data-bs-toggle="modal" data-bs-target="#exampleModal" style="bottom: 150px; right: 20px;"><i class="fa-solid fa-plus fa-2x"></i></button>
+    <button class="btn btn-primary position-fixed" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mode="add" style="bottom: 150px; right: 20px;"><i class="fa-solid fa-plus fa-2x"></i></button>
 </div>
 
 @section('footer_btns')
-<button id="begin_order_btn" type="button" class="btn btn-warning btn-lg w-100 mb-2">Invia Ordine al Gruppo</button>
+<!-- <button id="btn_ordine_al_gruppo" class="button_component bg_yellow">Invia Ordine al Gruppo</button> -->
+<button id="btn_ordine_al_gruppo" type="button" class="btn btn-warning btn-lg w-100 mb-2">Invia Ordine al Gruppo</button>
 <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">Indietro</button>
 @endsection

@@ -54,11 +54,54 @@
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        <div><i class="fa-solid fa-utensils"></i> A285</div>
+                <div id="dish_codes_ul" class="accordion-body">
+
+                    <a class="text-decoration-none m-3" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fa-solid fa-utensils"></i>
+                                A285
+                            </div>
+                            <div>
+                                <span class="badge bg-primary rounded-pill">28</span>
+                                <!-- Icona per attivare il popup (modal) -->
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                            </div>
+                        </div>
                     </a>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapseExample1">
+                        <div class="card card-body border-0 p-1">
+                            <ul class="list-group shadow-sm">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>Denys</div>
+                                    <div>
+                                        <span class="badge bg-primary rounded-pill">14</span>
+                                        <!-- Icona per attivare il popup (modal) -->
+                                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>Daniele</div>
+                                    <div>
+                                        <span class="badge bg-primary rounded-pill">14</span>
+                                        <!-- Icona per attivare il popup (modal) -->
+                                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a class="text-decoration-none m-3" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+                        <div><i class="fa-solid fa-utensils"></i> A288</div>
+                    </a>
+                    <div class="collapse" id="collapseExample2">
                         <div class="card card-body border-0 p-1">
                             <ul class="list-group shadow-sm">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">

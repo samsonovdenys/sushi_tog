@@ -27,6 +27,8 @@ $(document).ready(function() {
 
     let dishCodes = document.querySelectorAll('.dish_li');
 
+    const modal = document.getElementById('exampleModal');
+
     addListenersToUl(dishCodes);
 
 
@@ -75,7 +77,7 @@ $(document).ready(function() {
         const mode = modal.getAttribute('data-mode');
         var dish_code = $("#input_code").val();
         var quantity = $("#input_quantity").val();
-
+console.log(mode+' 80');
         if (mode === 'edit') {
             // Modifica la quantità di un piatto esistente
             if (order_list[dish_code]) {
@@ -97,8 +99,8 @@ $(document).ready(function() {
         }
     
         // Resetta i campi della modale
-        // modal.querySelector('#input_code').value = '';
-        // modal.querySelector('#input_quantity').value = 1;
+        modal.querySelector('#input_code').value = '';
+        modal.querySelector('#input_quantity').value = 1;
     
         // Chiudi la modale
         const bootstrapModal = bootstrap.Modal.getInstance(modal);
@@ -162,11 +164,11 @@ $(document).ready(function() {
     $("#btn_ordine_al_gruppo").on("click", function () {
 
         console.log("Sending Order to Group ...");
-        $(".left_tab_body").css("display", "none");
-        $(".right_tab_body").css("display", "block");
+        // $(".left_tab_body").css("display", "none");
+        // $(".right_tab_body").css("display", "block");
 
-        $("#tab_right_btn").addClass("underlined");
-        $("#tab_left_btn").removeClass("underlined");
+        // $("#tab_right_btn").addClass("underlined");
+        // $("#tab_left_btn").removeClass("underlined");
 
 
         const data = {};
@@ -217,16 +219,78 @@ $(document).ready(function() {
 
         // Itera sull'oggetto restituito
         for (const plateCode in result) {
-
+console.log(result);
             const total = result[plateCode].total;
             const details = result[plateCode].details;
 
-            var li = "<li><div class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span></div>";
-                li += "<ul class='right_tab_ul_level_3'>";
-            for (const user in details) {
-                li += "<li>" + user + " - <span class='user_quantity'>" + details[user] + " pezzi </span></li>";
-            }
-                li += "</ul></li><hr>";
+
+            var li = `<a class="text-decoration-none m-3" data-bs-toggle="collapse" href="#${plateCode}" role="button" aria-expanded="false" aria-controls="${plateCode}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fa-solid fa-utensils"></i>
+                        ${plateCode}
+                    </div>
+                    <div>
+                        <span class="badge bg-primary rounded-pill">${total}</span>
+                        <!-- Icona per attivare il popup (modal) -->
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#${plateCode}">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </div>
+            </a>
+            <div class="collapse" id="${plateCode}">
+                <div class="card card-body border-0 p-1">
+                    <ul class="list-group shadow-sm">`;
+                    for (const user in details){
+                        li += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>${user}</div>
+                            <div>
+                                <span class="badge bg-primary rounded-pill">${details[user]}</span>
+                                <!-- Icona per attivare il popup (modal) -->
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#${plateCode}">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                            </div>
+                        </li>`;
+                    }
+                        
+
+
+                    li += `</ul></div></div>`;
+
+
+            // var li = `<a class="text-decoration-none dish_li" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            //             <div><i class="fa-solid fa-utensils"></i>${plateCode}</div><span class='dish_quantity'>${total}</span>
+            //         </a>
+            //         <div class="collapse" id="collapseExample">
+            //             <div class="card card-body border-0 p-1">
+            //                 <ul id="dish_codes_ul" class="list-group shadow-sm">`;
+            // for (const user in details) {
+            //     li += `<li class="list-group-item d-flex justify-content-between align-items-center">
+            //                         <div>${user}</div>
+            //                         <div>
+            //                             <span class="badge bg-primary rounded-pill">${details[user]}</span>
+            //                             <!-- Icona per attivare il popup (modal) -->
+            //                             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            //                                 <i class="fa-solid fa-ellipsis-vertical"></i>
+            //                             </button>
+            //                         </div>
+            //                     </li>`;
+            // }
+
+            // li += `</ul></div></div>`;
+
+            console.log('li: ');
+            // console.log(li);
+
+            // var li = "<li><div class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span></div>";
+            //     li += "<ul class='right_tab_ul_level_3'>";
+
+            // for (const user in details) {
+            //     li += "<li>" + user + " - <span class='user_quantity'>" + details[user] + " pezzi </span></li>";
+            // }
+            //     li += "</ul></li><hr>";
 
             group_ul.append(li);
         }
@@ -329,7 +393,7 @@ $(document).ready(function() {
 
     }
 
-    const modal = document.getElementById('exampleModal');
+    
 
 // Evento di apertura della modale
 modal.addEventListener('show.bs.modal', function (event) {
@@ -344,21 +408,26 @@ modal.addEventListener('show.bs.modal', function (event) {
     // Popola i campi della modale con i dati
     const inputCode = modal.querySelector('#input_code');
     const inputQuantity = modal.querySelector('#input_quantity');
-
+console.log(mode+' 371');
     if (mode === 'edit') {
         // Modifica quantità esistente
-        const code = button.getAttribute('data-code');
-        const quantity = button.getAttribute('data-quantity');
+        // const code = button.getAttribute('data-code');
+        // const quantity = button.getAttribute('data-quantity');
 
         inputCode.value = code;
         inputQuantity.value = quantity;
 
         // Rendi il campo codice non modificabile
         inputCode.setAttribute('readonly', true);
+        modal.setAttribute('data-mode','edit');
+    }else{
+        // Rendi il campo codice modificabile
+        inputCode.removeAttribute('readonly');
+        modal.setAttribute('data-mode','add');
     }
 
     // Imposta il contesto della modale
-    modal.setAttribute('data-mode', mode);
+    // modal.setAttribute('data-mode', mode);
 });
 });
 
