@@ -2054,6 +2054,97 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/assets/js/GroupsPage/CreateJoinGroup.js":
+/*!***********************************************************!*\
+  !*** ./resources/assets/js/GroupsPage/CreateJoinGroup.js ***!
+  \***********************************************************/
+/***/ (() => {
+
+var new_group_name = $("#new_group_name");
+var new_group_button = $("#new_group_button");
+var join_group_id = $("#join_group_id");
+var join_group_button = $("#join_group_button");
+
+//
+new_group_button.on("click", function () {
+  var newGroupName = encodeURIComponent(new_group_name.val());
+  console.log(newGroupName);
+  window.location.href = "http://localhost:8080/crete_group/" + newGroupName;
+});
+
+//
+join_group_button.on("click", function () {
+  var joinGroupId = encodeURIComponent(join_group_id.val());
+  window.location.href = "http://localhost:8080/join/" + joinGroupId;
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/GroupsPage/OverviewPage.js":
+/*!********************************************************!*\
+  !*** ./resources/assets/js/GroupsPage/OverviewPage.js ***!
+  \********************************************************/
+/***/ (() => {
+
+var joinGroupBtn = $("#join_group_btn");
+var join_link = $("#join_link");
+var qrCodeContainer = $("#qr-code");
+joinGroupBtn.on("click", function () {
+  window.location.href = "http://localhost:8080/user/";
+});
+
+// QR-code
+if (join_link.text()) {
+  qrCodeContainer.html("");
+
+  // Validate input
+  if (!join_link) {
+    alert("Please enter a valid link!");
+  }
+
+  // Generate QR code URL
+  var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=".concat(encodeURIComponent(join_link), "&size=200x200");
+
+  // Display QR code
+  var qrCodeImg = document.createElement("img");
+  qrCodeImg.src = qrCodeUrl;
+  qrCodeContainer.append(qrCodeImg);
+}
+
+/***/ }),
+
+/***/ "./resources/assets/js/NicknamePage/Nickname.js":
+/*!******************************************************!*\
+  !*** ./resources/assets/js/NicknamePage/Nickname.js ***!
+  \******************************************************/
+/***/ (() => {
+
+var new_user_name = $("#new_name");
+var beginOrder = $("#begin_order_btn");
+
+//
+beginOrder.on("click", function () {
+  var newUserName = encodeURIComponent(new_user_name.val());
+  window.location.href = "http://localhost:8080/order/" + newUserName;
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/WelcomePage/Welcome.js":
+/*!****************************************************!*\
+  !*** ./resources/assets/js/WelcomePage/Welcome.js ***!
+  \****************************************************/
+/***/ (() => {
+
+var iniziamoBtn = $("#iniziamo_btn");
+
+//
+iniziamoBtn.on("click", function () {
+  window.location.href = "http://localhost:8080/group/";
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/app.js":
 /*!************************************!*\
   !*** ./resources/assets/js/app.js ***!
@@ -2105,60 +2196,27 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!***************************************!*\
   !*** ./resources/assets/js/script.js ***!
   \***************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw new Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw new Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 $(document).ready(function () {
+  __webpack_require__(/*! ./WelcomePage/Welcome */ "./resources/assets/js/WelcomePage/Welcome.js");
+  __webpack_require__(/*! ./GroupsPage/CreateJoinGroup */ "./resources/assets/js/GroupsPage/CreateJoinGroup.js");
+  __webpack_require__(/*! ./GroupsPage/OverviewPage */ "./resources/assets/js/GroupsPage/OverviewPage.js");
+  __webpack_require__(/*! ./NicknamePage/Nickname */ "./resources/assets/js/NicknamePage/Nickname.js");
   var order_list = {};
-  var userId = $('#user_id').attr('data-user_id');
-  var groupId = $('#group_id').attr('data-group_id');
+  var userId = $("#user_id").attr("data-user_id");
+  var groupId = $("#group_id").attr("data-group_id");
   var add_plate_button = $("#add_plate_button");
   var create_item_section = $(".create_item_section");
-  var create_item_button_confirm = $("#create_item_button_confirm");
-  var create_item_button_cancel = $("#create_item_button_cancel");
-  var new_group_name = $("#new_group_name");
-  var new_user_name = $("#new_name");
-  var new_group_button = $("#new_group_button");
-  var join_group_id = $("#join_group_id");
-  var join_group_button = $("#join_group_button");
-  var beginOrder = $("#begin_order_btn");
-  var iniziamoBtn = $("#iniziamo_btn");
-  var joinGroupBtn = $("#join_group_btn");
   var ul = $("#order_list_items");
   var group_ul = $("#dish_codes_ul");
-  var dishCodes = document.querySelectorAll('.dish_li');
-  var modal = document.getElementById('exampleModal');
+  var dishCodes = document.querySelectorAll(".dish_li");
+  var modal = document.getElementById("exampleModal");
   addListenersToUl(dishCodes);
-  joinGroupBtn.on("click", function () {
-    window.location.href = "http://localhost:8080/user/";
-  });
-
-  //
-  iniziamoBtn.on("click", function () {
-    window.location.href = "http://localhost:8080/group/";
-  });
-
-  //
-  beginOrder.on("click", function () {
-    var newUserName = encodeURIComponent(new_user_name.val());
-    window.location.href = "http://localhost:8080/order/" + newUserName;
-  });
-
-  //
-  join_group_button.on("click", function () {
-    var joinGroupId = encodeURIComponent(join_group_id.val());
-    window.location.href = "http://localhost:8080/join/" + joinGroupId;
-  });
-
-  //
-  new_group_button.on("click", function () {
-    var newGroupName = encodeURIComponent(new_group_name.val());
-    console.log(newGroupName);
-    window.location.href = "http://localhost:8080/crete_group/" + newGroupName;
-  });
 
   // When the "Add Plate" button is clicked, show the "create_item" div and hide the button
   add_plate_button.on("click", function () {
@@ -2167,18 +2225,18 @@ $(document).ready(function () {
   });
 
   // When the "Cancel" button is clicked, hide the "create_item" div and show the "Add Plate" button
-  create_item_button_cancel.on("click", function () {
+  $("#create_item_button_cancel").on("click", function () {
     create_item_section.css("display", "none");
     add_plate_button.css("display", "block");
   });
 
   // When the "Conferma" button is clicked, insert data from the input fields into the list
-  create_item_button_confirm.on("click", function () {
-    var mode = modal.getAttribute('data-mode');
+  $("#create_item_button_confirm").on("click", function () {
+    var mode = modal.getAttribute("data-mode");
     var dish_code = $("#input_code").val();
     var quantity = $("#input_quantity").val();
-    console.log(mode + ' 80');
-    if (mode === 'edit') {
+    console.log(mode + " 80");
+    if (mode === "edit") {
       // Modifica la quantità di un piatto esistente
       if (order_list[dish_code]) {
         order_list[dish_code] = parseInt(quantity);
@@ -2199,27 +2257,12 @@ $(document).ready(function () {
     }
 
     // Resetta i campi della modale
-    modal.querySelector('#input_code').value = '';
-    modal.querySelector('#input_quantity').value = 1;
+    modal.querySelector("#input_code").value = "";
+    modal.querySelector("#input_quantity").value = 1;
 
     // Chiudi la modale
     var bootstrapModal = bootstrap.Modal.getInstance(modal);
     bootstrapModal.hide();
-
-    //         if (order_list[dish_code]) {
-    //             order_list[dish_code] = parseInt(order_list[dish_code]) + parseInt(quantity);
-    //         } else {
-    //             order_list[dish_code] = parseInt(quantity);
-    //         }
-
-    //         $("#input_code").val($("#input_code").prop("defaultValue"));
-    //         $("#input_quantity").val(1);
-
-    //         let ul = $("#order_list_items");
-    //         ul.empty();
-    // console.log(order_list[dish_code],quantity);
-    // /////////////////////////////////////////////////////////////
-    //         updateUserUl();
   });
 
   // When the "-" button is clicked, decrease the input value
@@ -2300,7 +2343,7 @@ $(document).ready(function () {
             console.log("fetchDataMakeUl : ");
             console.log("_ data : ", data);
             _context.next = 8;
-            return fetch(origin + '/add_order', {
+            return fetch(origin + "/add_order", {
               method: "POST",
               credentials: "same-origin",
               headers: {
@@ -2316,10 +2359,6 @@ $(document).ready(function () {
           case 11:
             result = _context.sent;
             makeUl(result);
-            // $.each(result, function (key, value) {
-            //     var li = $("<li><span class='dish_code'>" + key + "</span>-<span class='dish_qantity'>" + value + "</span><ul class='right_tab_ul_level_3'><li>Me <span class='user_quantity'>" + value + "</span></li></ul></li>");
-            //     ul.append(li);
-            // });
           case 13:
           case "end":
             return _context.stop();
@@ -2363,7 +2402,7 @@ $(document).ready(function () {
 
       // li += `</ul></div></div>`;
 
-      console.log('li: ');
+      console.log("li: ");
       // console.log(li);
 
       // var li = "<li><div class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span></div>";
@@ -2376,17 +2415,17 @@ $(document).ready(function () {
 
       group_ul.append(li);
     }
-    dishCodes = document.querySelectorAll('.dish_li');
+    dishCodes = document.querySelectorAll(".dish_li");
     addListenersToUl(dishCodes);
   }
   function addListenersToUl(dishCodes) {
     dishCodes.forEach(function (code) {
-      code.addEventListener('click', function (event) {
+      code.addEventListener("click", function (event) {
         // Trova il prossimo UL rispetto al genitore LI del codice del piatto cliccato
-        var parentLi = event.target.closest('li');
-        var nextUl = parentLi.querySelector('.right_tab_ul_level_3');
-        if (nextUl.classList.contains('expanded')) {
-          nextUl.classList.remove('expanded');
+        var parentLi = event.target.closest("li");
+        var nextUl = parentLi.querySelector(".right_tab_ul_level_3");
+        if (nextUl.classList.contains("expanded")) {
+          nextUl.classList.remove("expanded");
           // nextUl.style.maxHeight = '0'; // Inizia l'animazione di chiusura
         } else {
           // Per aprire, prima imposta max-height a 'none' per calcolare l'altezza
@@ -2394,7 +2433,7 @@ $(document).ready(function () {
           //const height = nextUl.offsetHeight + 'px'; // Calcola l'altezza reale
           //nextUl.style.maxHeight = '0'; // Resetta per permettere l'animazione
           requestAnimationFrame(function () {
-            nextUl.classList.add('expanded');
+            nextUl.classList.add("expanded");
             //nextUl.style.maxHeight = height; // Inizia l'animazione di apertura
           });
         }
@@ -2402,17 +2441,16 @@ $(document).ready(function () {
     });
   }
 
-  // Your custom function
   function updateUserUl() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
     console.log(key, value);
-    if (key != '') {
+    if (key != "") {
       order_list[key] = value;
     }
     ul.empty();
     Object.entries(order_list).forEach(function (item) {
-      console.log('(order_list).forEach : ');
+      console.log("(order_list).forEach : ");
       var li = $("\n                <li class=\"list-group-item d-flex justify-content-between align-items-center\">\n                    ".concat(item[0], "\n                    <div>\n                        <span class=\"badge bg-primary rounded-pill\">").concat(item[1], "</span>\n                        <!-- Icona per attivare il popup (modal) -->\n                        <button\n                            type=\"button\"\n                            class=\"btn\"\n                            data-bs-toggle=\"modal\"\n                            data-bs-target=\"#exampleModal\"\n                            data-code=\"").concat(item[0], "\" \n                            data-quantity=\"").concat(item[1], "\"\n                            data-mode=\"edit\">\n                            <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n                        </button>\n                    </div>\n                </li>\n            "));
       ul.prepend(li);
       // console.log("01yo");
@@ -2422,57 +2460,58 @@ $(document).ready(function () {
       // console.log(ul);
 
       // Add click event listener to the minus button
-      li.find('.btn_minus_li').click(function (e) {
-        console.log('btn minus was clicked');
-        var min_li_key = e.target.getAttribute('data-key');
-        var min_li_value = e.target.getAttribute('data-value');
+      li.find(".btn_minus_li").click(function (e) {
+        console.log("btn minus was clicked");
+        var min_li_key = e.target.getAttribute("data-key");
+        var min_li_value = e.target.getAttribute("data-value");
         updateUserUl(min_li_key, min_li_value - 1); // Call your custom function with the key and an action
       });
 
       // Add click event listener to the plus button
-      li.find('.btn_plus_li').click(function (e) {
-        console.log('btn plus was clicked');
-        var plus_li_key = e.target.getAttribute('data-key');
-        var plus_li_value = e.target.getAttribute('data-value');
+      li.find(".btn_plus_li").click(function (e) {
+        console.log("btn plus was clicked");
+        var plus_li_key = e.target.getAttribute("data-key");
+        var plus_li_value = e.target.getAttribute("data-value");
         updateUserUl(plus_li_key, +plus_li_value + 1); // Call your custom function with the key and an action
       });
     });
   }
-
   // Evento di apertura della modale
-  modal.addEventListener('show.bs.modal', function (event) {
-    // Ottieni il pulsante che ha attivato la modale
-    var button = event.relatedTarget;
+  if (modal) {
+    modal.addEventListener("show.bs.modal", function (event) {
+      // Ottieni il pulsante che ha attivato la modale
+      var button = event.relatedTarget;
 
-    // Estrai i dati dal pulsante
-    var mode = button.getAttribute('data-mode'); // add/edit
-    var code = button.getAttribute('data-code');
-    var quantity = button.getAttribute('data-quantity');
+      // Estrai i dati dal pulsante
+      var mode = button.getAttribute("data-mode"); // add/edit
+      var code = button.getAttribute("data-code");
+      var quantity = button.getAttribute("data-quantity");
 
-    // Popola i campi della modale con i dati
-    var inputCode = modal.querySelector('#input_code');
-    var inputQuantity = modal.querySelector('#input_quantity');
-    console.log(mode + ' 371');
-    if (mode === 'edit') {
-      // Modifica quantità esistente
-      // const code = button.getAttribute('data-code');
-      // const quantity = button.getAttribute('data-quantity');
+      // Popola i campi della modale con i dati
+      var inputCode = modal.querySelector("#input_code");
+      var inputQuantity = modal.querySelector("#input_quantity");
+      console.log(mode + " 371");
+      if (mode === "edit") {
+        // Modifica quantità esistente
+        // const code = button.getAttribute('data-code');
+        // const quantity = button.getAttribute('data-quantity');
 
-      inputCode.value = code;
-      inputQuantity.value = quantity;
+        inputCode.value = code;
+        inputQuantity.value = quantity;
 
-      // Rendi il campo codice non modificabile
-      inputCode.setAttribute('readonly', true);
-      modal.setAttribute('data-mode', 'edit');
-    } else {
-      // Rendi il campo codice modificabile
-      inputCode.removeAttribute('readonly');
-      modal.setAttribute('data-mode', 'add');
-    }
+        // Rendi il campo codice non modificabile
+        inputCode.setAttribute("readonly", true);
+        modal.setAttribute("data-mode", "edit");
+      } else {
+        // Rendi il campo codice modificabile
+        inputCode.removeAttribute("readonly");
+        modal.setAttribute("data-mode", "add");
+      }
 
-    // Imposta il contesto della modale
-    // modal.setAttribute('data-mode', mode);
-  });
+      // Imposta il contesto della modale
+      // modal.setAttribute('data-mode', mode);
+    });
+  }
 });
 
 /***/ }),

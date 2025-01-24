@@ -33,7 +33,7 @@
 
         
             
-            <div style="height: 150px; width: 150px; background-color: rgb(112, 112, 112); margin: 0px auto;">QR-CODE</div>
+            <div id="qr-code" style="height: 200px; width: 200px; background-color: rgb(112, 112, 112); margin: 0px auto;"></div>
             <div class="text-center mt-5">
                 <a id="join_link" href="#">{{ $join_link }}</a>
             </div>
