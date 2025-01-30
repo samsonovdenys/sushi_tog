@@ -5,7 +5,10 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <h1 class="text-center flex-grow-1 m-0 text-white">SushiApp</h1>
+    <a href="http://localhost:8080/">
+        <h1 class="text-center flex-grow-1 m-0 text-white">SushiApp</h1>
+    </a>
+    
 
     <button class="btn" aria-label="Settings">
         <i class="fas fa-cog text-white"></i>

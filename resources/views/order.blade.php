@@ -1,18 +1,9 @@
 @extends('layouts.app')
-
+<!-- ORDER-CONTENT -->
 @section('content')
     <div class="content">
-
         <!-----Tab of main order page ------------------>
-        <!-- <div class="main_tabs" style="display: flex;">
-            <button id="tab_left_btn" class="divided underlined">
-                <h3>Il tuo ordine (8)</h3>
-            </button>
-            <button id="tab_right_btn"class="divided">
-                <h3>Ordine del gruppo (49)</h3>
-            </button>
-        </div> -->
-
+        
         <!-- Tab Navigation -->
         <ul class="nav nav-tabs justify-content-center" role="tablist">
             <li class="nav-item w-50" role="presentation">
@@ -43,4 +34,8 @@
         </div>
         
     </div>
+@endsection
+@section('footer_btns')
+    <button id="btn_ordine_al_gruppo" type="button" class="btn btn-warning btn-lg w-100 mb-2">Invia Ordine al Gruppo</button>
+    <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">Indietro</button>
 @endsection
