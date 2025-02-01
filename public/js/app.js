@@ -2130,6 +2130,64 @@ beginOrder.on("click", function () {
 
 /***/ }),
 
+/***/ "./resources/assets/js/Utils/Loading.js":
+/*!**********************************************!*\
+  !*** ./resources/assets/js/Utils/Loading.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  on: function on() {
+    if (!document.getElementById("loading-overlay")) {
+      // Crea il div overlay
+      var overlay = document.createElement("div");
+      overlay.id = "loading-overlay";
+      overlay.style.position = "fixed";
+      overlay.style.top = "0";
+      overlay.style.left = "0";
+      overlay.style.width = "100vw";
+      overlay.style.height = "100vh";
+      overlay.style.background = "rgba(0, 0, 0, 0.5)"; // Oscura lo schermo
+      overlay.style.display = "flex";
+      overlay.style.alignItems = "center";
+      overlay.style.justifyContent = "center";
+      overlay.style.zIndex = "10000";
+
+      // Crea la rotella di loading
+      var spinner = document.createElement("div");
+      spinner.classList.add("loading-spinner");
+      spinner.style.width = "80px";
+      spinner.style.height = "80px";
+      spinner.style.border = "8px solid rgba(255, 255, 255, 0.3)";
+      spinner.style.borderTop = "8px solid white";
+      spinner.style.borderRadius = "50%";
+      spinner.style.animation = "spin 1s linear infinite";
+
+      // Aggiungi lo spinner all'overlay
+      overlay.appendChild(spinner);
+      document.body.appendChild(overlay);
+
+      // Aggiungi animazione CSS
+      var style = document.createElement("style");
+      style.innerHTML = "\n                @keyframes spin {\n                    0% { transform: rotate(0deg); }\n                    100% { transform: rotate(360deg); }\n                }\n            ";
+      document.head.appendChild(style);
+    }
+  },
+  off: function off() {
+    var overlay = document.getElementById("loading-overlay");
+    if (overlay) {
+      overlay.remove();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/WelcomePage/Welcome.js":
 /*!****************************************************!*\
   !*** ./resources/assets/js/WelcomePage/Welcome.js ***!
@@ -2207,28 +2265,23 @@ $(document).ready(function () {
   __webpack_require__(/*! ./GroupsPage/CreateJoinGroup */ "./resources/assets/js/GroupsPage/CreateJoinGroup.js");
   __webpack_require__(/*! ./GroupsPage/OverviewPage */ "./resources/assets/js/GroupsPage/OverviewPage.js");
   __webpack_require__(/*! ./NicknamePage/Nickname */ "./resources/assets/js/NicknamePage/Nickname.js");
-  var order_list = {};
-  var userId = $("#user_id").attr("data-user_id");
-  var groupId = $("#group_id").attr("data-group_id");
-  var add_plate_button = $("#add_plate_button");
-  var create_item_section = $(".create_item_section");
+  var Loading = (__webpack_require__(/*! ./Utils/Loading */ "./resources/assets/js/Utils/Loading.js")["default"]); // Accedi all'export di default
+
   var ul = $("#order_list_items");
   var group_ul = $("#dish_codes_ul");
   var dishCodes = document.querySelectorAll(".dish_li");
   var modal = document.getElementById("exampleModal");
   addListenersToUl(dishCodes);
 
-  // When the "Add Plate" button is clicked, show the "create_item" div and hide the button
-  add_plate_button.on("click", function () {
-    create_item_section.css("display", "block");
-    add_plate_button.css("display", "none");
-  });
+  // Ul del Ordine del gruppo
+  var userId = $("#user_id").attr("data-user_id");
+  var groupId = $("#group_id").attr("data-group_id");
+  var orderNumber = 1;
+  var order_list = {};
+  var data = {};
 
-  // When the "Cancel" button is clicked, hide the "create_item" div and show the "Add Plate" button
-  $("#create_item_button_cancel").on("click", function () {
-    create_item_section.css("display", "none");
-    add_plate_button.css("display", "block");
-  });
+  // data.user_id = userId;
+  // data.group_id = groupId;
 
   // When the "Conferma" button is clicked, insert data from the input fields into the list
   $("#create_item_button_confirm").on("click", function () {
@@ -2290,44 +2343,35 @@ $(document).ready(function () {
       var activeTabId = event.target.id; // ID del tab attivo
 
       if (activeTabId === "group-order-tab") {
+        fetchDataMakeUl();
         document.getElementById("footer_btns").innerHTML = "\n                    <button id=\"close_order_btn\" type=\"button\" class=\"btn btn-warning btn-lg w-100 mb-2\">Chiudi ordine</button>\n                    <button type=\"button\" class=\"btn btn-secondary btn-lg w-100 mb-2\">Indietro</button>\n                ";
+        $("#close_order_btn").on("click", function () {
+          $("#dish_codes_ul").children().appendTo("#dish_privious_codes_ul"); // Sposta gli elementi
+          $("#dish_codes_ul").empty(); // Svuota l'elemento originale
+
+          order_list = {};
+          data = {};
+          orderNumber++;
+          console.log("Coppiato la tabella con successo !");
+          console.log(orderNumber);
+        });
       } else {
         document.getElementById("footer_btns").innerHTML = "\n                    <button id=\"btn_ordine_al_gruppo\" type=\"button\" class=\"btn btn-warning btn-lg w-100 mb-2\">Invia Ordine al Gruppo</button>\n                    <button type=\"button\" class=\"btn btn-secondary btn-lg w-100 mb-2\">Indietro</button>\n                ";
       }
     });
   });
 
-  // When the "Your Order" button is clicked, show the "left_tab_body" and hide the "right_tab_body"
-  $("#tab_left_btn").on("click", function () {
-    $(".left_tab_body").css("display", "flex");
-    $(".right_tab_body").css("display", "none");
-    $("#tab_left_btn").addClass("underlined");
-    $("#tab_right_btn").removeClass("underlined");
-  });
-
-  // When the "Group Order" tab button is clicked, call the updateGruppo function and toggle tab styles
-  $("#tab_right_btn").on("click", function () {
-    $(".left_tab_body").css("display", "none");
-    $(".right_tab_body").css("display", "block");
-    $("#tab_right_btn").addClass("underlined");
-    $("#tab_left_btn").removeClass("underlined");
-  });
-
-  // When the "Send Order to Group" button is clicked, call the updateGruppo function, update the UI, and upload data
+  // When the "Invia Ordine al Gruppo" button is clicked, call the updateGruppo function, update the UI, and upload data
   // Delegation per evitare la perdita dell'evento dopo il cambio tab
   $(document).on("click", "#btn_ordine_al_gruppo", function () {
     console.log("Sending Order to Group ...");
     var data = {};
     data.order = order_list;
-    data.user_id = userId;
-    data.group_id = groupId;
 
     // Esegui la funzione di elaborazione dati
     var result = fetchDataMakeUl(data);
     order_list = {};
     ul.empty();
-    create_item_section.css("display", "none");
-    add_plate_button.css("display", "block");
 
     // Cambia tab a "Ordine al Gruppo"
     $("#group-order-tab").tab("show");
@@ -2348,13 +2392,16 @@ $(document).ready(function () {
           case 0:
             data = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
             csrfToken = $("meta[name='csrf-token']").attr("content");
-            origin = location.origin;
-            if (Object.keys(data).length === 0) {
-              data.group_id = groupId;
-            }
+            origin = location.origin; // if (Object.keys(data).length === 0) {
+            //     data.group_id = groupId;
+            // }
+            // data.user_id = userId;
+            // data.group_id = groupId;
+            data.order_number = orderNumber;
             console.log("fetchDataMakeUl : ");
             console.log("_ data : ", data);
-            _context.next = 8;
+            Loading.on();
+            _context.next = 9;
             return fetch(origin + "/add_order", {
               method: "POST",
               credentials: "same-origin",
@@ -2364,14 +2411,17 @@ $(document).ready(function () {
               },
               body: JSON.stringify(data)
             });
-          case 8:
+          case 9:
             response = _context.sent;
-            _context.next = 11;
+            _context.next = 12;
             return response.json();
-          case 11:
+          case 12:
             result = _context.sent;
+            if (result) {
+              Loading.off();
+            }
             makeUl(result);
-          case 13:
+          case 15:
           case "end":
             return _context.stop();
         }
@@ -2384,47 +2434,14 @@ $(document).ready(function () {
 
     // Itera sull'oggetto restituito
     for (var plateCode in result) {
-      console.log(result);
+      // console.log(result);
       var total = result[plateCode].total;
       var details = result[plateCode].details;
-      var li = "<a class=\"text-decoration-none m-3\" data-bs-toggle=\"collapse\" href=\"#".concat(plateCode, "\" role=\"button\" aria-expanded=\"false\" aria-controls=\"").concat(plateCode, "\">\n                <div class=\"d-flex justify-content-between align-items-center\">\n                    <div>\n                        <i class=\"fa-solid fa-utensils\"></i>\n                        ").concat(plateCode, "\n                    </div>\n                    <div>\n                        <span class=\"badge bg-primary rounded-pill\">").concat(total, "</span>\n                        <!-- Icona per attivare il popup (modal) -->\n                        <button type=\"button\" class=\"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#").concat(plateCode, "\">\n                            <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n                        </button>\n                    </div>\n                </div>\n            </a>\n            <div class=\"collapse\" id=\"").concat(plateCode, "\">\n                <div class=\"card card-body border-0 p-1\">\n                    <ul class=\"list-group shadow-sm\">");
+      var li = "<a class=\"text-decoration-none m-3\" data-bs-toggle=\"collapse\" href=\"#".concat(plateCode, "\" role=\"button\" aria-expanded=\"false\" aria-controls=\"").concat(plateCode, "\">\n                <div class=\"d-flex justify-content-between align-items-center\">\n                    <div>\n                        <i class=\"fa-solid fa-utensils\"></i>\n                        ").concat(plateCode, "\n                    </div>\n                    <div>\n                        <span class=\"badge bg-primary rounded-pill\">").concat(total, "</span>\n                        <!-- Icona per attivare il popup (modal) -->\n                        <button type=\"button\" class=\"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#").concat(plateCode, "\">\n                            <!-- <i class=\"fa-solid fa-ellipsis-vertical\"></i> -->\n                        </button>\n                    </div>\n                </div>\n            </a>\n            <div class=\"collapse\" id=\"").concat(plateCode, "\">\n                <div class=\"card card-body border-0 p-1\">\n                    <ul class=\"list-group shadow-sm\">");
       for (var user in details) {
-        li += "<li class=\"list-group-item d-flex justify-content-between align-items-center\">\n                            <div>".concat(user, "</div>\n                            <div>\n                                <span class=\"badge bg-primary rounded-pill\">").concat(details[user], "</span>\n                                <!-- Icona per attivare il popup (modal) -->\n                                <button type=\"button\" class=\"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#").concat(plateCode, "\">\n                                    <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n                                </button>\n                            </div>\n                        </li>");
+        li += "<li class=\"list-group-item d-flex justify-content-between align-items-center\">\n                            <div>".concat(user, "</div>\n                            <div>\n                                <span class=\"badge bg-primary rounded-pill\">").concat(details[user], "</span>\n                                <!-- Icona per attivare il popup (modal) -->\n                                <button type=\"button\" class=\"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#").concat(plateCode, "\">\n                                    <!-- <i class=\"fa-solid fa-ellipsis-vertical\"></i> -->\n                                </button>\n                            </div>\n                        </li>");
       }
       li += "</ul></div></div>";
-
-      // var li = `<a class="text-decoration-none dish_li" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-      //             <div><i class="fa-solid fa-utensils"></i>${plateCode}</div><span class='dish_quantity'>${total}</span>
-      //         </a>
-      //         <div class="collapse" id="collapseExample">
-      //             <div class="card card-body border-0 p-1">
-      //                 <ul id="dish_codes_ul" class="list-group shadow-sm">`;
-      // for (const user in details) {
-      //     li += `<li class="list-group-item d-flex justify-content-between align-items-center">
-      //                         <div>${user}</div>
-      //                         <div>
-      //                             <span class="badge bg-primary rounded-pill">${details[user]}</span>
-      //                             <!-- Icona per attivare il popup (modal) -->
-      //                             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      //                                 <i class="fa-solid fa-ellipsis-vertical"></i>
-      //                             </button>
-      //                         </div>
-      //                     </li>`;
-      // }
-
-      // li += `</ul></div></div>`;
-
-      console.log("li: ");
-      // console.log(li);
-
-      // var li = "<li><div class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span></div>";
-      //     li += "<ul class='right_tab_ul_level_3'>";
-
-      // for (const user in details) {
-      //     li += "<li>" + user + " - <span class='user_quantity'>" + details[user] + " pezzi </span></li>";
-      // }
-      //     li += "</ul></li><hr>";
-
       group_ul.append(li);
     }
     dishCodes = document.querySelectorAll(".dish_li");
@@ -20020,6 +20037,18 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
 /******/ 		};
 /******/ 	})();
 /******/ 	

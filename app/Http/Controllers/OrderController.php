@@ -89,6 +89,7 @@ class OrderController extends Controller
         $data = $request->json()->all();
 
         $order = isset($data['order']) ? $data['order'] : [];
+        $order_number = isset($data['order_number']) ? $data['order_number'] : 1;
 
         $tableName = 'order_table';
 
@@ -100,6 +101,7 @@ class OrderController extends Controller
                 'user_name' => session('user_name'),
                 'plate_code' => $key,
                 'quantity' => $value,
+                'order_number' => $order_number
             ]);
         }
 
@@ -107,6 +109,7 @@ class OrderController extends Controller
         $collection = DB::table($tableName)
                     ->select('plate_code', 'user_name', DB::raw('SUM(quantity) as total_quantity'))
                     ->where('group_id', session('group_id'))
+                    ->where('order_number', $order_number)
                     ->groupBy('plate_code', 'user_name')
                     ->get();
 

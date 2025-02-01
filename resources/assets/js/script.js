@@ -3,13 +3,10 @@ $(document).ready(function () {
     require("./GroupsPage/CreateJoinGroup");
     require("./GroupsPage/OverviewPage");
     require("./NicknamePage/Nickname");
+    const Loading = require("./Utils/Loading").default; // Accedi all'export di default
 
-    let order_list = {};
-    let userId = $("#user_id").attr("data-user_id");
-    let groupId = $("#group_id").attr("data-group_id");
-
-    let add_plate_button = $("#add_plate_button");
-    let create_item_section = $(".create_item_section");
+    
+    
 
     let ul = $("#order_list_items");
     let group_ul = $("#dish_codes_ul");
@@ -20,17 +17,17 @@ $(document).ready(function () {
 
     addListenersToUl(dishCodes);
 
-    // When the "Add Plate" button is clicked, show the "create_item" div and hide the button
-    add_plate_button.on("click", function () {
-        create_item_section.css("display", "block");
-        add_plate_button.css("display", "none");
-    });
+    // Ul del Ordine del gruppo
+    let userId = $("#user_id").attr("data-user_id");
+    let groupId = $("#group_id").attr("data-group_id");
+    let orderNumber = 1;
 
-    // When the "Cancel" button is clicked, hide the "create_item" div and show the "Add Plate" button
-    $("#create_item_button_cancel").on("click", function () {
-        create_item_section.css("display", "none");
-        add_plate_button.css("display", "block");
-    });
+    let order_list = {};
+    let data = {};
+
+    // data.user_id = userId;
+    // data.group_id = groupId;
+    
 
     // When the "Conferma" button is clicked, insert data from the input fields into the list
     $("#create_item_button_confirm").on("click", function () {
@@ -87,16 +84,30 @@ $(document).ready(function () {
 
     // Seleziona il contenitore dei tab
     let tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
-
     tabs.forEach((tab) => {
         tab.addEventListener("shown.bs.tab", function (event) {
             let activeTabId = event.target.id; // ID del tab attivo
 
             if (activeTabId === "group-order-tab") {
+
+                fetchDataMakeUl();
+
                 document.getElementById("footer_btns").innerHTML = `
                     <button id="close_order_btn" type="button" class="btn btn-warning btn-lg w-100 mb-2">Chiudi ordine</button>
                     <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">Indietro</button>
                 `;
+                $("#close_order_btn").on("click", function () {
+                    $("#dish_codes_ul")
+                        .children()
+                        .appendTo("#dish_privious_codes_ul"); // Sposta gli elementi
+                    $("#dish_codes_ul").empty(); // Svuota l'elemento originale
+
+                    order_list = {};
+                    data = {};
+                    orderNumber++;
+                    console.log("Coppiato la tabella con successo !");
+                    console.log(orderNumber);
+                });
             } else {
                 document.getElementById("footer_btns").innerHTML = `
                     <button id="btn_ordine_al_gruppo" type="button" class="btn btn-warning btn-lg w-100 mb-2">Invia Ordine al Gruppo</button>
@@ -106,56 +117,42 @@ $(document).ready(function () {
         });
     });
 
-    // When the "Your Order" button is clicked, show the "left_tab_body" and hide the "right_tab_body"
-    $("#tab_left_btn").on("click", function () {
-        $(".left_tab_body").css("display", "flex");
-        $(".right_tab_body").css("display", "none");
-
-        $("#tab_left_btn").addClass("underlined");
-        $("#tab_right_btn").removeClass("underlined");
-    });
-
-    // When the "Group Order" tab button is clicked, call the updateGruppo function and toggle tab styles
-    $("#tab_right_btn").on("click", function () {
-        $(".left_tab_body").css("display", "none");
-        $(".right_tab_body").css("display", "block");
-
-        $("#tab_right_btn").addClass("underlined");
-        $("#tab_left_btn").removeClass("underlined");
-    });
-
-    // When the "Send Order to Group" button is clicked, call the updateGruppo function, update the UI, and upload data
+    
+    // When the "Invia Ordine al Gruppo" button is clicked, call the updateGruppo function, update the UI, and upload data
     // Delegation per evitare la perdita dell'evento dopo il cambio tab
     $(document).on("click", "#btn_ordine_al_gruppo", function () {
         console.log("Sending Order to Group ...");
 
         const data = {};
         data.order = order_list;
-        data.user_id = userId;
-        data.group_id = groupId;
 
         // Esegui la funzione di elaborazione dati
         const result = fetchDataMakeUl(data);
         order_list = {};
         ul.empty();
-        create_item_section.css("display", "none");
-        add_plate_button.css("display", "block");
 
         // Cambia tab a "Ordine al Gruppo"
         $("#group-order-tab").tab("show");
     });
 
+
+
+
     async function fetchDataMakeUl(data = {}) {
         const csrfToken = $("meta[name='csrf-token']").attr("content");
         let origin = location.origin;
 
-        if (Object.keys(data).length === 0) {
-            data.group_id = groupId;
-        }
+        // if (Object.keys(data).length === 0) {
+        //     data.group_id = groupId;
+        // }
+        // data.user_id = userId;
+        // data.group_id = groupId;
+        data.order_number = orderNumber;
 
         console.log("fetchDataMakeUl : ");
         console.log("_ data : ", data);
 
+        Loading.on();
         let response = await fetch(origin + "/add_order", {
             method: "POST",
             credentials: "same-origin",
@@ -168,6 +165,9 @@ $(document).ready(function () {
 
         const result = await response.json();
 
+        if (result) {
+            Loading.off();
+        }
         makeUl(result);
     }
 
@@ -176,7 +176,7 @@ $(document).ready(function () {
 
         // Itera sull'oggetto restituito
         for (const plateCode in result) {
-            console.log(result);
+            // console.log(result);
             const total = result[plateCode].total;
             const details = result[plateCode].details;
 
@@ -190,7 +190,7 @@ $(document).ready(function () {
                         <span class="badge bg-primary rounded-pill">${total}</span>
                         <!-- Icona per attivare il popup (modal) -->
                         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#${plateCode}">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            <!-- <i class="fa-solid fa-ellipsis-vertical"></i> -->
                         </button>
                     </div>
                 </div>
@@ -206,45 +206,13 @@ $(document).ready(function () {
                                 <span class="badge bg-primary rounded-pill">${details[user]}</span>
                                 <!-- Icona per attivare il popup (modal) -->
                                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#${plateCode}">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    <!-- <i class="fa-solid fa-ellipsis-vertical"></i> -->
                                 </button>
                             </div>
                         </li>`;
             }
 
             li += `</ul></div></div>`;
-
-            // var li = `<a class="text-decoration-none dish_li" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            //             <div><i class="fa-solid fa-utensils"></i>${plateCode}</div><span class='dish_quantity'>${total}</span>
-            //         </a>
-            //         <div class="collapse" id="collapseExample">
-            //             <div class="card card-body border-0 p-1">
-            //                 <ul id="dish_codes_ul" class="list-group shadow-sm">`;
-            // for (const user in details) {
-            //     li += `<li class="list-group-item d-flex justify-content-between align-items-center">
-            //                         <div>${user}</div>
-            //                         <div>
-            //                             <span class="badge bg-primary rounded-pill">${details[user]}</span>
-            //                             <!-- Icona per attivare il popup (modal) -->
-            //                             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            //                                 <i class="fa-solid fa-ellipsis-vertical"></i>
-            //                             </button>
-            //                         </div>
-            //                     </li>`;
-            // }
-
-            // li += `</ul></div></div>`;
-
-            console.log("li: ");
-            // console.log(li);
-
-            // var li = "<li><div class='dish_li'><span class='dish_code'>" + plateCode + "</span>-<span class='dish_quantity'>" + total + "</span></div>";
-            //     li += "<ul class='right_tab_ul_level_3'>";
-
-            // for (const user in details) {
-            //     li += "<li>" + user + " - <span class='user_quantity'>" + details[user] + " pezzi </span></li>";
-            // }
-            //     li += "</ul></li><hr>";
 
             group_ul.append(li);
         }

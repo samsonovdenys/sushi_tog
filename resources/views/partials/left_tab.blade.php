@@ -1,4 +1,4 @@
-<!-- LEFT-TAB CONTENT -->
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog modal-dialog-centered">
@@ -29,6 +29,7 @@
     </div>
 </div>
 
+<!-- LEFT-TAB CONTENT -->
 <div class="tab-pane fade show active" id="my-order" role="tabpanel" aria-labelledby="my-order-tab">
     <div>
         <ul id="order_list_items" class="list-group mt-5 shadow">
@@ -37,6 +38,6 @@
     <!-- Contenuto per 'Il mio ordine' -->
 
     <!-- Button at the bottom right of the body -->
-    <button class="btn btn-primary position-fixed" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mode="add" style="bottom: 150px; right: 20px;"><i class="fa-solid fa-plus fa-2x"></i></button>
+    <button class="btn btn-primary position-fixed" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mode="add" style="bottom: 180px; right: 25px;"><i class="fa-solid fa-plus fa-3x"></i></button>
 </div>
 
