@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    require('./WelcomePage/Welcome');
-    require('./GroupsPage/CreateJoinGroup');
-    require('./GroupsPage/OverviewPage');
-    require('./NicknamePage/Nickname');
+    require("./WelcomePage/Welcome");
+    require("./GroupsPage/CreateJoinGroup");
+    require("./GroupsPage/OverviewPage");
+    require("./NicknamePage/Nickname");
 
     let order_list = {};
     let userId = $("#user_id").attr("data-user_id");
@@ -20,15 +20,12 @@ $(document).ready(function () {
 
     addListenersToUl(dishCodes);
 
-
     // When the "Add Plate" button is clicked, show the "create_item" div and hide the button
     add_plate_button.on("click", function () {
         create_item_section.css("display", "block");
         add_plate_button.css("display", "none");
     });
 
-
-    
     // When the "Cancel" button is clicked, hide the "create_item" div and show the "Add Plate" button
     $("#create_item_button_cancel").on("click", function () {
         create_item_section.css("display", "none");
@@ -68,10 +65,7 @@ $(document).ready(function () {
         // Chiudi la modale
         const bootstrapModal = bootstrap.Modal.getInstance(modal);
         bootstrapModal.hide();
-
     });
-
-
 
     // When the "-" button is clicked, decrease the input value
     $("#btn_minus").on("click", function () {
@@ -91,7 +85,26 @@ $(document).ready(function () {
         }
     });
 
+    // Seleziona il contenitore dei tab
+    let tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
 
+    tabs.forEach((tab) => {
+        tab.addEventListener("shown.bs.tab", function (event) {
+            let activeTabId = event.target.id; // ID del tab attivo
+
+            if (activeTabId === "group-order-tab") {
+                document.getElementById("footer_btns").innerHTML = `
+                    <button id="close_order_btn" type="button" class="btn btn-warning btn-lg w-100 mb-2">Chiudi ordine</button>
+                    <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">Indietro</button>
+                `;
+            } else {
+                document.getElementById("footer_btns").innerHTML = `
+                    <button id="btn_ordine_al_gruppo" type="button" class="btn btn-warning btn-lg w-100 mb-2">Invia Ordine al Gruppo</button>
+                    <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">Indietro</button>
+                `;
+            }
+        });
+    });
 
     // When the "Your Order" button is clicked, show the "left_tab_body" and hide the "right_tab_body"
     $("#tab_left_btn").on("click", function () {
@@ -111,31 +124,26 @@ $(document).ready(function () {
         $("#tab_left_btn").removeClass("underlined");
     });
 
-
-
     // When the "Send Order to Group" button is clicked, call the updateGruppo function, update the UI, and upload data
-    $("#btn_ordine_al_gruppo").on("click", function () {
+    // Delegation per evitare la perdita dell'evento dopo il cambio tab
+    $(document).on("click", "#btn_ordine_al_gruppo", function () {
         console.log("Sending Order to Group ...");
-        // $(".left_tab_body").css("display", "none");
-        // $(".right_tab_body").css("display", "block");
-
-        // $("#tab_right_btn").addClass("underlined");
-        // $("#tab_left_btn").removeClass("underlined");
 
         const data = {};
         data.order = order_list;
         data.user_id = userId;
         data.group_id = groupId;
 
-        // console.log(data, data.user_id, data.group_id, data.order);
+        // Esegui la funzione di elaborazione dati
         const result = fetchDataMakeUl(data);
         order_list = {};
         ul.empty();
         create_item_section.css("display", "none");
         add_plate_button.css("display", "block");
+
+        // Cambia tab a "Ordine al Gruppo"
+        $("#group-order-tab").tab("show");
     });
-
-
 
     async function fetchDataMakeUl(data = {}) {
         const csrfToken = $("meta[name='csrf-token']").attr("content");

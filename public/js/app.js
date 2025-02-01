@@ -2283,6 +2283,20 @@ $(document).ready(function () {
     }
   });
 
+  // Seleziona il contenitore dei tab
+  var tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
+  tabs.forEach(function (tab) {
+    tab.addEventListener("shown.bs.tab", function (event) {
+      var activeTabId = event.target.id; // ID del tab attivo
+
+      if (activeTabId === "group-order-tab") {
+        document.getElementById("footer_btns").innerHTML = "\n                    <button id=\"close_order_btn\" type=\"button\" class=\"btn btn-warning btn-lg w-100 mb-2\">Chiudi ordine</button>\n                    <button type=\"button\" class=\"btn btn-secondary btn-lg w-100 mb-2\">Indietro</button>\n                ";
+      } else {
+        document.getElementById("footer_btns").innerHTML = "\n                    <button id=\"btn_ordine_al_gruppo\" type=\"button\" class=\"btn btn-warning btn-lg w-100 mb-2\">Invia Ordine al Gruppo</button>\n                    <button type=\"button\" class=\"btn btn-secondary btn-lg w-100 mb-2\">Indietro</button>\n                ";
+      }
+    });
+  });
+
   // When the "Your Order" button is clicked, show the "left_tab_body" and hide the "right_tab_body"
   $("#tab_left_btn").on("click", function () {
     $(".left_tab_body").css("display", "flex");
@@ -2300,25 +2314,23 @@ $(document).ready(function () {
   });
 
   // When the "Send Order to Group" button is clicked, call the updateGruppo function, update the UI, and upload data
-  $("#btn_ordine_al_gruppo").on("click", function () {
+  // Delegation per evitare la perdita dell'evento dopo il cambio tab
+  $(document).on("click", "#btn_ordine_al_gruppo", function () {
     console.log("Sending Order to Group ...");
-    // $(".left_tab_body").css("display", "none");
-    // $(".right_tab_body").css("display", "block");
-
-    // $("#tab_right_btn").addClass("underlined");
-    // $("#tab_left_btn").removeClass("underlined");
-
     var data = {};
     data.order = order_list;
     data.user_id = userId;
     data.group_id = groupId;
 
-    // console.log(data, data.user_id, data.group_id, data.order);
+    // Esegui la funzione di elaborazione dati
     var result = fetchDataMakeUl(data);
     order_list = {};
     ul.empty();
     create_item_section.css("display", "none");
     add_plate_button.css("display", "block");
+
+    // Cambia tab a "Ordine al Gruppo"
+    $("#group-order-tab").tab("show");
   });
   function fetchDataMakeUl() {
     return _fetchDataMakeUl.apply(this, arguments);

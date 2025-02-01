@@ -31,7 +31,7 @@
 
 <div class="tab-pane fade show active" id="my-order" role="tabpanel" aria-labelledby="my-order-tab">
     <div>
-        <ul id="order_list_items" class="list-group mt-5 shadow"><li class="list-group-item d-flex justify-content-between align-items-center">
+        <ul id="order_list_items" class="list-group mt-5 shadow">
         </ul>
     </div>
     <!-- Contenuto per 'Il mio ordine' -->
